@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinamac</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
     <header>
@@ -19,12 +19,15 @@
                         <button class="btn btn-primary" id="basic-search-btn">Search</button>
                     </form>
                 </div>
-                <nav>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <a href="#trend-title">Trending</a>
                     <a href="#genre-title">Genres</a>
                     <a href="#people-title">People</a>
                     <a href="#discover-title">Discover</a>
-                </nav>
+                </div>
+                <span onclick="openNav()">&#9776;</span>
+                
             </div>
         </div>
     </header>

@@ -1,11 +1,24 @@
+// TMDB API Information
 var tmdbUrl = "https://api.themoviedb.org/3/";
-var tmdbKey = "api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
+var tmdbKey = "&api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
+var getTrending = "trending/movie/"
+var topRated = "movie/top_rated/"
+var popFilms = "movie/popular/"
+var showingFilms = "movie/now_playing"
+var popPeople = "person/popular/"
+var multiSearch = "/search/multi?query="
+
+// movieGlu API Information
 var gluKey = "api-key=Dm6PtlSwNc4Vjt4WhaSTS1dXGqu9Vu48gz9TqwN0";
 var gluUrl = "https://api-gate2.movieglu.com/";
 
-var getTrending = "/trending/movie/"
-var multiSearch = "/search/multi?query="
-var trendContentCont = $("#trending-content-cont")
+// Global Variables/DOM elements
+var trendContentCont = $("#trending-content-cont");
+var topRatedCont = $("#rated-content-cont");
+var popFilmsCont = $("#pop-content-cont");
+var inTheatersCont = $("#showing-content-cont")
+var popPeopleCont = $("#pop-people-content-cont")
+// GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
 function success(pos) {
@@ -13,8 +26,8 @@ function success(pos) {
     var lat = crd.latitude;
     var lon = crd.longitude;
 
-    console.log(`Your current position is;`);
-    console.log(`Latitude : ${lat}`);
+    console.log(`Your current position is`);
+    console.log(`Latitude: ${lat}`);
     console.log(`Longitude: ${lon}`);
 }
 function error(err)
@@ -23,30 +36,28 @@ function error(err)
 }
 
 navigator.geolocation.getCurrentPosition(success, error, options);
+// GEOLOCATION ------ END
 
-var theatersNearMe = function() {
-    locationTheaters = JSON.parse(localStorage.getItem("locationTheaters"));
+// var theatersNearMe = function() {
+//     locationTheaters = JSON.parse(localStorage.getItem("locationTheaters"));
 
-    if (!locationTheaters) {
-        fetch (
-            gluKey + "cinemasNearby/?n=5" + gluUrl
-        )
-        .then (function(response){
-            if(response.ok) {
-                return response.json();
-            }
-        })
-        .then (function(response){
-            saveTheatersNearMe(response);
-        })
-    }
-}
-var saveTheatersNearMe = function(response) {
-    localStorage.setItem("locationTheaters", JSON.stringify(response));
-}
-
-
-
+//     if (!locationTheaters) {
+//         fetch (
+//             gluKey + "cinemasNearby/?n=5" + gluUrl
+//         )
+//         .then (function(response){
+//             if(response.ok) {
+//                 return response.json();
+//             }
+//         })
+//         .then (function(response){
+//             saveTheatersNearMe(response);
+//         })
+//     }
+// }
+// var saveTheatersNearMe = function(response) {
+//     localStorage.setItem("locationTheaters", JSON.stringify(response));
+// }
 
 // Load or call TMDB Configuration Api
 var configurationApi = function() {
@@ -81,6 +92,10 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
+// --------------------------------------------------------------------------------------
+// HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD
+// --------------------------------------------------------------------------------------
+
 // Get Trending Movie window value (day || week)
 var trendWindow = function(clickedBtn) {
     var startingVal = $("#trend-window").children(".active").attr("trend-id") + "?"
@@ -99,17 +114,22 @@ var trendWindow = function(clickedBtn) {
     } else {
         $("#trending-title").text("Films Trending this Week");
     }
-    console.log(trendVal)
+    console.log("Current Interval (day vs week)",trendVal);
 
     getTrend(trendVal);
 }
 
+// On click of trending window buttons update api
 $("#trend-window").on("click", function(target){
     var clickedBtn = $(target)[0].target.innerText
     trendWindow(clickedBtn);
 })
 
-// Call trending films 
+// --------------------------------------------------------------------------------------
+// // HOME PAGE API CALLS
+// --------------------------------------------------------------------------------------
+
+// Call trending films -- render with (renderTrend())
 var getTrend = function(trendVal) {
     fetch(
         tmdbUrl + getTrending + trendVal + tmdbKey
@@ -130,14 +150,101 @@ var getTrend = function(trendVal) {
     })
 }
 
-// Render trending films
+// Call Top Rated films -- render with (renderTrend())
+var getTopRated = function() {
+    fetch(
+        tmdbUrl + topRated + "?region=US&adult=false&language=en-US" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderTopRated(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
+// Call Popular films -- render with (renderPop())
+var getPopFilms = function() {
+    fetch(
+        tmdbUrl + popFilms + "?region=US&adult=false&language=en-US" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderPopFilms(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
+// Call In Theaters films -- render with (renderShowing())
+var getShowing = function() {
+    fetch(
+        tmdbUrl + showingFilms + "?region=US&adult=false&language=en-US" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderShowingFilms(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
+// Call Popular People -- render with (renderPopPeople())
+var getPopPeople = function() {
+    fetch(
+        tmdbUrl + popPeople + "?region=US&adult=false&language=en-US" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderPopPeople(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
+//--------------------------------------------------------------------------------------
+// RENDER HOME PAGE API CALLS
+//--------------------------------------------------------------------------------------
+
+// Render trending films (getTrend())
 var renderTrend = function(response) {
     trendContentCont.html("");
     for (var i = 0; i < 10; i++){
         var genCard = $("<div></div>");
             genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
             genCard.css("width", "10rem");
-            
         var postImg = $("<img></img>");
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
@@ -146,29 +253,138 @@ var renderTrend = function(response) {
             imgOverlay.addClass("card-img-overlay");
         var cardBody = $("<div></div>");
             cardBody.addClass("card-body");
-            // cardBody.css("word-wrap", "break-word");
         var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
             movTitle.addClass("card-title w-100");
-            // movTitle.css("word-wrap", "break-word");
         if (i > 3) {
             genCard.addClass("media-hide");
         }
-            cardBody.append(movTitle);
-        // imgOverlay.append(movTitle);
+        cardBody.append(movTitle);
         genCard.append(cardBody);
-        // genCard.append(imgOverlay);
         trendContentCont.append(genCard);
     }
 }
 
+// Render top rated films (getTopRated())
+var renderTopRated = function(response) {
+    topRatedCont.html("");
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.css("width", "10rem");
+        var postImg = $("<img></img>");
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        genCard.append(postImg);
+        var imgOverlay = $("<div></div>");
+            imgOverlay.addClass("card-img-overlay");
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");
+        var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(cardBody);
+        topRatedCont.append(genCard);
+    }
+}
+
+// Render top rated films (getPopFilms())
+var renderPopFilms = function(response) {
+    popFilmsCont.html("");
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.css("width", "10rem");
+        var postImg = $("<img></img>");
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        genCard.append(postImg);
+        var imgOverlay = $("<div></div>");
+            imgOverlay.addClass("card-img-overlay");
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");;
+        var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(cardBody);;
+        popFilmsCont.append(genCard);
+    }
+}
+
+// Render top rated films (renderShowingFilms())
+var renderShowingFilms = function(response) {
+    inTheatersCont.html("");
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.css("width", "10rem");
+        var postImg = $("<img></img>");
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        genCard.append(postImg);
+        var imgOverlay = $("<div></div>");
+            imgOverlay.addClass("card-img-overlay");
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");;
+        var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(cardBody);;
+        inTheatersCont.append(genCard);
+    }
+}
+
+// Render top rated films (renderShowingFilms())
+var renderPopPeople = function(response) {
+    popPeopleCont.html("");
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.css("width", "10rem");
+        var postImg = $("<img></img>");
+            postImg.attr("src", imgUrl + profilePicSiz + response.results[i].profile_path);
+            postImg.addClass("card-img-top");
+        genCard.append(postImg);
+        var imgOverlay = $("<div></div>");
+            imgOverlay.addClass("card-img-overlay");
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");;
+        var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].name);
+            movTitle.addClass("card-title w-100");
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(cardBody);;
+        popPeopleCont.append(genCard);
+    }
+}
+
 configurationApi();
-theatersNearMe();
+// theatersNearMe();
 
 var imgUrl = configJson.images.base_url;
 var postSizCust = "w220_and_h330_face"
 var postSize185 = configJson.images.poster_sizes[2];
 var postSize342 = configJson.images.poster_sizes[3];
 var postSize500 = configJson.images.poster_sizes[4];
+var profilePicSiz = "w235_and_h235_face"
 
 trendWindow();
+getTopRated();
+getPopFilms();
+getShowing();
+getPopPeople();

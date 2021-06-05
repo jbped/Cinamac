@@ -68,8 +68,25 @@ body {
 @media screen and (max-width:1000px) {
     .horz-cont{
         flex-wrap:wrap;
+        justify-content: space-around;
     }
     .media-hide{
         display: none;
     }
+    .film-card{
+        flex: 0 0 40%;
+      
+     }
+}
+@media screen and (max-width:570px) {
+    .horz-cont{
+        flex-wrap:wrap;
+        justify-content: space-around;
+    }
+    .media-hide{
+        display: none;
+    }
+    .film-card{
+        flex: 1 1 100%;
+     }
 }

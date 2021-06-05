@@ -1,9 +1,52 @@
-var apiUrl = "https://api.themoviedb.org/3/";
-var apiKey = "api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
+var tmdbUrl = "https://api.themoviedb.org/3/";
+var tmdbKey = "api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
+var gluKey = "api-key=Dm6PtlSwNc4Vjt4WhaSTS1dXGqu9Vu48gz9TqwN0";
+var gluUrl = "https://api-gate2.movieglu.com/";
+
 var getTrending = "/trending/movie/"
 var multiSearch = "/search/multi?query="
-
 var trendContentCont = $("#trending-content-cont")
+var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
+
+function success(pos) {
+    var crd = pos.coords;
+    var lat = crd.latitude;
+    var lon = crd.longitude;
+
+    console.log(`Your current position is;`);
+    console.log(`Latitude : ${lat}`);
+    console.log(`Longitude: ${lon}`);
+}
+function error(err)
+{
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+var theatersNearMe = function() {
+    locationTheaters = JSON.parse(localStorage.getItem("locationTheaters"));
+
+    if (!locationTheaters) {
+        fetch (
+            gluKey + "cinemasNearby/?n=5" + gluUrl
+        )
+        .then (function(response){
+            if(response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            saveTheatersNearMe(response);
+        })
+    }
+}
+var saveTheatersNearMe = function(response) {
+    localStorage.setItem("locationTheaters", JSON.stringify(response));
+}
+
+
+
 
 // Load or call TMDB Configuration Api
 var configurationApi = function() {
@@ -11,7 +54,7 @@ var configurationApi = function() {
 
     if (!configJson) {
         fetch (
-            apiUrl + "configuration?" + apiKey
+            tmdbUrl + "configuration?" + tmdbKey
         )
         .then (function(response){
             if(response.ok) {
@@ -69,7 +112,7 @@ $("#trend-window").on("click", function(target){
 // Call trending films 
 var getTrend = function(trendVal) {
     fetch(
-        apiUrl + getTrending + trendVal + apiKey
+        tmdbUrl + getTrending + trendVal + tmdbKey
     )
     .then (function(response){
         if (response.ok) {
@@ -120,6 +163,7 @@ var renderTrend = function(response) {
 }
 
 configurationApi();
+theatersNearMe();
 
 var imgUrl = configJson.images.base_url;
 var postSizCust = "w220_and_h330_face"

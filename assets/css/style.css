@@ -3,11 +3,39 @@ body {
 }
 
 .horz-cont {
-    overflow-x:scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 }
 
 .film-card{
-    display:inline-block;
+   flex: 0 0 auto;
+}
+
+
+::-webkit-scrollbar {
+    height: .5em;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(56, 56, 56);
+    border-radius: 1em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(51, 51, 51);
+    border-radius: 1em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(22, 22, 22);;
+}
+
+@media screen and (max-width:1000px) {
+    .horz-cont{
+        flex-wrap:wrap;
+    }
+    .media-hide{
+        display: none;
+    }
 }

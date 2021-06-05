@@ -1,3 +1,14 @@
 body {
     background: gray;
 }
+
+.horz-cont {
+    overflow-x:scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.film-card{
+    display:inline-block;
+}
+

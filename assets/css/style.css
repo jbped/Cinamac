@@ -19,6 +19,22 @@ header {
     background-color: var(--dark-darker-40);
 }
 
+header h1 {
+    color: var(--fifth);
+}
+
+header span {
+    background-color: var(--third);
+    font-size: 35px;
+    text-align: center;
+    border-radius: .2rem;
+}
+
+header span:hover {
+    cursor: pointer;
+    background-color: var(--forth);
+}
+
 body {
     background: var(--dark-darker-20);
 }
@@ -31,7 +47,7 @@ body {
 
 .header-bg h2 {
     border-bottom: solid 3px var(--fifth);
-    color: rgb(14, 14, 14);
+    color: var(--primary)
 }
 
 .sidenav {

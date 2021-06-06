@@ -2,10 +2,11 @@
 var tmdbUrl = "https://api.themoviedb.org/3/";
 var tmdbKey = "&api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
 var getTrending = "trending/movie/"
-var topRated = "movie/top_rated/"
-var popFilms = "movie/popular/"
+var topRated = "movie/top_rated"
+var popFilms = "movie/popular"
 var showingFilms = "movie/now_playing"
-var popPeople = "person/popular/"
+var popPeople = "person/popular"
+var genreSearch = "genre/movie/list"
 var multiSearch = "/search/multi?query="
 
 // movieGlu API Information
@@ -13,11 +14,13 @@ var gluKey = "api-key=Dm6PtlSwNc4Vjt4WhaSTS1dXGqu9Vu48gz9TqwN0";
 var gluUrl = "https://api-gate2.movieglu.com/";
 
 // Global Variables/DOM elements
+var searchBar = $("#basic-search");
 var trendContentCont = $("#trending-content-cont");
 var topRatedCont = $("#rated-content-cont");
 var popFilmsCont = $("#pop-content-cont");
-var inTheatersCont = $("#showing-content-cont")
-var popPeopleCont = $("#pop-people-content-cont")
+var inTheatersCont = $("#showing-content-cont");
+var popPeopleCont = $("#pop-people-content-cont");
+var genreCont = $("#genre-content-cont");
 // GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
@@ -91,6 +94,11 @@ function openNav() {
   function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
+
+// --------------------------------------------------------------------------------------
+// Search Bar Logic
+// --------------------------------------------------------------------------------------
+
 
 // --------------------------------------------------------------------------------------
 // HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD
@@ -228,6 +236,27 @@ var getPopPeople = function() {
     })
     .then (function(response){
         renderPopPeople(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
+// Call Genres -- render with (renderPopPeople())
+var getGenres = function() {
+    fetch(
+        tmdbUrl + genreSearch + "?" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderGenre(response)
     })
     .catch (function(error){
         alert(error);
@@ -373,6 +402,32 @@ var renderPopPeople = function(response) {
     }
 }
 
+// Render genres (renderShowingFilms())
+var renderGenre = function(response) {
+    genreCont.html("");
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.css("width", "10rem");
+        // var postImg = $("<img></img>");
+        //     postImg.attr("src", imgUrl + profilePicSiz + response.results[i].profile_path);
+        //     postImg.addClass("card-img-top");
+        // genCard.append(postImg);
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");;
+        var movTitle = $("<h5></h5>");
+            movTitle.text(response.genres[i].name);
+            movTitle.attr("genre-id", response.genres[i].id);
+            movTitle.addClass("card-title w-100");
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(cardBody);;
+        genreCont.append(genCard);
+    }
+}
+
 configurationApi();
 // theatersNearMe();
 
@@ -388,3 +443,4 @@ getTopRated();
 getPopFilms();
 getShowing();
 getPopPeople();
+getGenres();

@@ -64,6 +64,17 @@ var saveConfig = function(response) {
     localStorage.setItem("configJson", JSON.stringify(response));
 }
 
+// --------------------------------------------------------------------------------------
+// Search Bar Logic
+// --------------------------------------------------------------------------------------
+$(searchBar).on("submit", function(event){
+    event.preventDefault();
+    var search = $(this).children("#basic-search-input").val().trim();
+    console.log(search);
+    localStorage.setItem("search", JSON.stringify(search));
+    window.location.href = "search.html";
+})
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
   }
@@ -73,9 +84,14 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
-  configurationApi();
-// theatersNearMe();
+// --------------------------------------------------------------------------------------
+// Function Calls on Load
+// --------------------------------------------------------------------------------------
+configurationApi();
 
+// --------------------------------------------------------------------------------------
+// Variables dependant on configurationApi
+// --------------------------------------------------------------------------------------
 var imgUrl = configJson.images.base_url;
 var postSizCust = "w220_and_h330_face"
 var postSize185 = configJson.images.poster_sizes[2];

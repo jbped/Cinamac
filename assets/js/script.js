@@ -95,16 +95,7 @@
 //     document.getElementById("mySidenav").style.width = "0";
 //   }
 
-// --------------------------------------------------------------------------------------
-// Search Bar Logic
-// --------------------------------------------------------------------------------------
-$(searchBar).on("submit", function(event){
-    event.preventDefault();
-    var search = $(this).children("#basic-search-input").val().trim();
-    console.log(search);
-    localStorage.setItem("search", JSON.stringify(search));
-    window.location.href = "search.html";
-})
+
 
 // --------------------------------------------------------------------------------------
 // HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD

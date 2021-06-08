@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinamac</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <span class="col-lg-2" onclick="openNav()">&#9776;</span>
+                <h1 class="col-lg-5"><a href="./index.html">Cinamac!</a></h1>
+                <div class="col-lg-5 d-flex align-item-center">
+                    <form class="form-inline w-100 flex-nowrap" id="basic-search">
+                        <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
+                            id="basic-search-input" spellcheck="true">
+                        <button class="btn btn-primary" id="basic-search-btn">Search</button>
+                    </form>
+                </div>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="#trend-title">Trending</a>
+                    <a href="#genre-title">Genres</a>
+                    <a href="#people-title">People</a>
+                    <a href="#discover-title">Discover</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container-fluid" content-pg="trending">
+        <div class="row">
+            <aside class="col-lg-2 m-lg-3 p-3">
+                <h5 class="text-light">Select Media Type:</h3>
+                <ul id="media-type-group" class="list-group">
+                    <li class="list-group-item list-group-item-action active" trend-type="all">All</li>
+                    <li class="list-group-item list-group-item-action" trend-type="movie">Movies</li>
+                    <li class="list-group-item list-group-item-action" trend-type="tv">TV Shows</li>
+                    <li class="list-group-item list-group-item-action" trend-type="person">People</li>
+                </ul>
+                <h5 class="text-light mt-4">Select Timeframe:</h3>
+                <div id="trend-window" class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                    <label class="btn btn-secondary w-50 active" trend-id="day">
+                        <input type="radio" name="options" id="daily-trend" autocomplete="off"checked>Daily
+                    </label>
+                    <label class="btn btn-secondary w-50" trend-id="week">
+                        <input type="radio" name="options" id="monthly-trend" autocomplete="off">Weekly
+                    </label>
+                </div>
+                <button type="button" id="options-btn" class="btn btn-primary btn-block mt-4" onclick=trendSettings();>Filter Trending</button>
+            </aside>
+            <div class="row col-lg-9">
+                <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
+                <div class="row" id="trending-content-cont">
+                    <!-- DOM Inserted Elements Here -->
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+            </div>
+        </div>
+        
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="./assets/js/global.js"></script>
+    <script src="./assets/js/trending.js"></script>
+
+</body>
+</html>

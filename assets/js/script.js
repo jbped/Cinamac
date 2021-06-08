@@ -107,17 +107,6 @@ fetch(
 //   }
 
 // --------------------------------------------------------------------------------------
-// Search Bar Logic
-// --------------------------------------------------------------------------------------
-$(searchBar).on("submit", function(event){
-    event.preventDefault();
-    var search = $(this).children("#basic-search-input").val().trim();
-    console.log(search);
-    localStorage.setItem("search", JSON.stringify(search));
-    window.location.href = "search.html";
-})
-
-// --------------------------------------------------------------------------------------
 // HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD
 // --------------------------------------------------------------------------------------
 
@@ -157,7 +146,7 @@ $("#trend-window").on("click", function(target){
 // Call trending films -- render with (renderTrend())
 var getTrend = function(trendVal) {
     fetch(
-        tmdbUrl + getTrending + trendVal + tmdbKey
+        tmdbUrl + getTrending + "/movie/" + trendVal + tmdbKey
     )
     .then (function(response){
         if (response.ok) {
@@ -169,48 +158,6 @@ var getTrend = function(trendVal) {
     })
     .then (function(response){
         renderTrend(response)
-    })
-    .catch (function(error){
-        alert(error);
-    })
-}
-
-// Call Top Rated films -- render with (renderTrend())
-var getTopRated = function() {
-    fetch(
-        tmdbUrl + topRated + "?region=US&adult=false&language=en-US" + tmdbKey
-    )
-    .then (function(response){
-        if (response.ok) {
-            return response.json();
-        }
-        else {
-            alert("Unable to query correct items")
-        }
-    })
-    .then (function(response){
-        renderTopRated(response)
-    })
-    .catch (function(error){
-        alert(error);
-    })
-}
-
-// Call Popular films -- render with (renderPop())
-var getPopFilms = function() {
-    fetch(
-        tmdbUrl + popFilms + "?region=US&adult=false&language=en-US" + tmdbKey
-    )
-    .then (function(response){
-        if (response.ok) {
-            return response.json();
-        }
-        else {
-            alert("Unable to query correct items")
-        }
-    })
-    .then (function(response){
-        renderPopFilms(response)
     })
     .catch (function(error){
         alert(error);
@@ -280,6 +227,27 @@ var getGenres = function() {
     })
 }
 
+// Call Popular TV Shows  -- render with (renderPopTv())
+var getPopTV = function() {
+    fetch(
+        tmdbUrl + popTvShows + "?region=US&language=en-US" + tmdbKey
+    )
+    .then (function(response){
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            alert("Unable to query correct items")
+        }
+    })
+    .then (function(response){
+        renderPopTv(response)
+    })
+    .catch (function(error){
+        alert(error);
+    })
+}
+
 //--------------------------------------------------------------------------------------
 // RENDER HOME PAGE API CALLS
 //--------------------------------------------------------------------------------------
@@ -287,136 +255,19 @@ var getGenres = function() {
 // Render trending films (getTrend())
 var renderTrend = function(response) {
     trendContentCont.html("");
-    for (var i = 0; i < 10; i++){
-        var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
-            genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        genCard.append(postImg);
-        var imgOverlay = $("<div></div>");
-            imgOverlay.addClass("card-img-overlay");
-        var cardBody = $("<div></div>");
-            cardBody.addClass("card-body");
-        var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].title);
-            movTitle.addClass("card-title w-100");
-        if (i > 3) {
-            genCard.addClass("media-hide");
-        }
-        cardBody.append(movTitle);
-        genCard.append(cardBody);
-        trendContentCont.append(genCard);
-    }
+    renderMasterShort(response, trendContentCont);
 }
 
-// Render top rated films (getTopRated())
-var renderTopRated = function(response) {
-    topRatedCont.html("");
-    for (var i = 0; i < 10; i++){
-        var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
-            genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        genCard.append(postImg);
-        var imgOverlay = $("<div></div>");
-            imgOverlay.addClass("card-img-overlay");
-        var cardBody = $("<div></div>");
-            cardBody.addClass("card-body");
-        var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].title);
-            movTitle.addClass("card-title w-100");
-        if (i > 3) {
-            genCard.addClass("media-hide");
-        }
-        cardBody.append(movTitle);
-        genCard.append(cardBody);
-        topRatedCont.append(genCard);
-    }
-}
-
-// Render top rated films (getPopFilms())
-var renderPopFilms = function(response) {
-    popFilmsCont.html("");
-    for (var i = 0; i < 10; i++){
-        var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
-            genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        genCard.append(postImg);
-        var imgOverlay = $("<div></div>");
-            imgOverlay.addClass("card-img-overlay");
-        var cardBody = $("<div></div>");
-            cardBody.addClass("card-body");;
-        var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].title);
-            movTitle.addClass("card-title w-100");
-        if (i > 3) {
-            genCard.addClass("media-hide");
-        }
-        cardBody.append(movTitle);
-        genCard.append(cardBody);;
-        popFilmsCont.append(genCard);
-    }
-}
-
-// Render top rated films (renderShowingFilms())
+// Render films in theater (renderShowingFilms())
 var renderShowingFilms = function(response) {
     inTheatersCont.html("");
-    for (var i = 0; i < 10; i++){
-        var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
-            genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        genCard.append(postImg);
-        var imgOverlay = $("<div></div>");
-            imgOverlay.addClass("card-img-overlay");
-        var cardBody = $("<div></div>");
-            cardBody.addClass("card-body");;
-        var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].title);
-            movTitle.addClass("card-title w-100");
-        if (i > 3) {
-            genCard.addClass("media-hide");
-        }
-        cardBody.append(movTitle);
-        genCard.append(cardBody);;
-        inTheatersCont.append(genCard);
-    }
+    renderMasterShort(response, inTheatersCont);
 }
 
 // Render top rated films (renderShowingFilms())
 var renderPopPeople = function(response) {
     popPeopleCont.html("");
-    for (var i = 0; i < 10; i++){
-        var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
-            genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-            postImg.attr("src", imgUrl + profilePicSiz + response.results[i].profile_path);
-            postImg.addClass("card-img-top");
-        genCard.append(postImg);
-        var imgOverlay = $("<div></div>");
-            imgOverlay.addClass("card-img-overlay");
-        var cardBody = $("<div></div>");
-            cardBody.addClass("card-body");;
-        var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].name);
-            movTitle.addClass("card-title w-100");
-        if (i > 3) {
-            genCard.addClass("media-hide");
-        }
-        cardBody.append(movTitle);
-        genCard.append(cardBody);;
-        popPeopleCont.append(genCard);
-    }
+    renderMasterShort(response, popPeopleCont);
 }
 
 // Render genres (renderShowingFilms())
@@ -426,13 +277,11 @@ var renderGenre = function(response) {
         var genCard = $("<div></div>");
             genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
             genCard.css("width", "10rem");
-        // var postImg = $("<img></img>");
-        //     postImg.attr("src", imgUrl + profilePicSiz + response.results[i].profile_path);
-        //     postImg.addClass("card-img-top");
-        // genCard.append(postImg);
         var cardBody = $("<div></div>");
             cardBody.addClass("card-body");;
         var movTitle = $("<h5></h5>");
+            movTitle.css("text-align", "center")
+            movTitle.css("margin", "0")
             movTitle.text(response.genres[i].name);
             movTitle.attr("genre-id", response.genres[i].id);
             movTitle.addClass("card-title w-100");
@@ -445,19 +294,17 @@ var renderGenre = function(response) {
     }
 }
 
-// configurationApi();
-// theatersNearMe();
+// Render popular Tv (getPopFilms())
+var renderPopTv = function(response) {
+    popTVCont.html("");
+    renderMasterShort(response, popTVCont);
+}
 
-// var imgUrl = configJson.images.base_url;
-// var postSizCust = "w220_and_h330_face"
-// var postSize185 = configJson.images.poster_sizes[2];
-// var postSize342 = configJson.images.poster_sizes[3];
-// var postSize500 = configJson.images.poster_sizes[4];
-// var profilePicSiz = "w235_and_h235_face"
-
+// --------------------------------------------------------------------------------------
+// Functions Called on Load
+// --------------------------------------------------------------------------------------
 trendWindow();
-getTopRated();
-getPopFilms();
 getShowing();
 getPopPeople();
 getGenres();
+getPopTV();

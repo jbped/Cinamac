@@ -7,6 +7,7 @@ var popFilms = "movie/popular"
 var showingFilms = "movie/now_playing"
 var popPeople = "person/popular"
 var genreSearch = "genre/movie/list"
+var popTvShows = "tv/popular"
 var multiSearch = "search/multi?query="
 
 // movieGlu API Information
@@ -16,11 +17,10 @@ var gluUrl = "https://api-gate2.movieglu.com/";
 // Global Variables/DOM elements
 var searchBar = $("#basic-search");
 var trendContentCont = $("#trending-content-cont");
-var topRatedCont = $("#rated-content-cont");
-var popFilmsCont = $("#pop-content-cont");
 var inTheatersCont = $("#showing-content-cont");
 var popPeopleCont = $("#pop-people-content-cont");
 var genreCont = $("#genre-content-cont");
+var popTVCont = $("#tv-content-cont");
 // GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
@@ -84,6 +84,109 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
+var renderMasterShort = function(response, contentContainer) {
+    for (var i = 0; i < 10; i++){
+        var genCard = $("<div></div>");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+        var postImg = $("<img></img>");
+        genCard.append(postImg);
+        var cardBody = $("<div></div>");
+            cardBody.addClass("card-body");
+        if(response.results[i].media_type === "movie") {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }
+        else if (response.results[i].media_type === "tv") {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].name);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }  
+        else if (response.results[i].gender > -1){
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].name);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type","person");
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            postImg.addClass("card-img-top");
+        } 
+        else {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type","in-theaters");
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }
+        if (i > 3) {
+            genCard.addClass("media-hide");
+        }
+        cardBody.append(movTitle);
+        genCard.append(postImg);
+        genCard.append(cardBody);
+        contentContainer.append(genCard);
+    }
+}
+
+var renderMasterLong = function(response, contentContainer){
+    for (var i = 0; i < response.results.length; i++) {
+        var genCard = $("<div></div>");
+        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25");
+        var postImg = $("<img></img>");
+        var cardBody = $("<div></div>");
+        cardBody.addClass("card-body");
+        if(response.results[i].media_type === "movie") {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }
+        else if (response.results[i].media_type === "tv") {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].name);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }  
+        else if (response.results[i].gender > -1){
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].name);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type","person");
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            postImg.addClass("card-img-top");
+        } 
+        else {
+            var movTitle = $("<h5></h5>");
+            movTitle.text(response.results[i].title);
+            movTitle.addClass("card-title w-100");
+            genCard.attr("content-type","in-theaters");
+            genCard.attr("content-id",response.results[i].id);
+            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            postImg.addClass("card-img-top");
+        }
+        cardBody.append(movTitle);
+        genCard.append(postImg);
+        genCard.append(cardBody);
+        contentContainer.append(genCard);
+    }
+}
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------

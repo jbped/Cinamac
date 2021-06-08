@@ -41,7 +41,6 @@ var trendSettings = function() {
         $(typeTitle).text("People");
     }
     fetchTrending(trendType, trendWindow);
-
 }
 
 // Initial Trending on Page Load
@@ -65,49 +64,10 @@ var fetchTrending = function(a, b) {
         }
     }) 
     .then(function(response){
-        renderTrending(response);
+        renderMasterLong(response, trendContentCont);
     })
 }
     
-// Rending of Trending Call
-var renderTrending = function (response) {
-    for (var i = 0; i < response.results.length; i++) {
-        var genCard = $("<div></div>");
-        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25");
-        // genCard.css("width", "10rem");
-        var postImg = $("<img></img>");
-        var cardBody = $("<div></div>");
-        cardBody.addClass("card-body");
-        if(response.results[i].media_type === "movie") {
-            var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].title);
-            movTitle.addClass("card-title w-100");
-            movTitle.attr("content-type",response.results[i].media_type);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        }
-        else if (response.results[i].media_type === "tv") {
-            var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].name);
-            movTitle.addClass("card-title w-100");
-            movTitle.attr("content-type",response.results[i].media_type);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
-            postImg.addClass("card-img-top");
-        }  else {
-            var movTitle = $("<h5></h5>");
-            movTitle.text(response.results[i].name);
-            movTitle.addClass("card-title w-100");
-            movTitle.attr("content-type","person");
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
-            postImg.addClass("card-img-top");
-        }
-        genCard.append(postImg);
-        cardBody.append(movTitle);
-        genCard.append(cardBody);
-        trendContentCont.append(genCard);
-    }
-}
-
 // Load more button logic
 $("#load-more").on("click", function(event) {
     event.preventDefault();

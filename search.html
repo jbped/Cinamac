@@ -10,26 +10,40 @@
 </head>
 <body>
     <header>
-        <div class="container">
-            <div class="row">
-                <span class="col-lg-2" onclick="openNav()">&#9776;</span>
-                <h1 class="col-lg-5"><a href="./index.html">Cinamac!</a></h1>
-                <div class="col-lg-5 d-flex align-item-center">
-                    <form class="form-inline w-100 flex-nowrap" id="basic-search">
-                        <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
-                            id="basic-search-input" spellcheck="true">
-                        <button class="btn btn-primary" id="basic-search-btn">Search</button>
-                    </form>
-                </div>
-                <div id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="#trend-title">Trending</a>
-                    <a href="#genre-title">Genres</a>
-                    <a href="#people-title">People</a>
-                    <a href="#discover-title">Discover</a>
-                </div> 
+        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
+    
+            <h1 class="pr-5">Cinamac!</h1>
+    
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+    
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#trend-title">Trending</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="##genre-title">Genres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#people-title">People</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#discover-title">Discover</a>
+                    </li>
+                </ul>
+    
+                <form class="form-inline flex-nowrap" id="basic-search">
+                    <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
+                        id="basic-search-input" spellcheck="true">
+                    <button class="btn btn-primary" id="basic-search-btn">Search</button>
+                </form>
             </div>
-        </div>
+        </nav>
     </header>
 
     <main class="container text-light">

@@ -64,6 +64,7 @@ var fetchTrending = function(a, b) {
         }
     }) 
     .then(function(response){
+        checkPages(response, trendingPage);
         renderMasterLong(response, trendContentCont);
     })
 }

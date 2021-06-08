@@ -21,6 +21,8 @@ var inTheatersCont = $("#showing-content-cont");
 var popPeopleCont = $("#pop-people-content-cont");
 var genreCont = $("#genre-content-cont");
 var popTVCont = $("#tv-content-cont");
+var loadMoreBtn = $("#load-more");
+
 // GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
@@ -185,6 +187,16 @@ var renderMasterLong = function(response, contentContainer){
         genCard.append(postImg);
         genCard.append(cardBody);
         contentContainer.append(genCard);
+    }
+}
+
+var checkPages = function (response, pageCount) {
+    if (pageCount === response.total_pages) {
+        loadMoreBtn.attr("disabled", true);
+        loadMoreBtn.text("End of the Line Bucko! No more results are available.")
+    } else {
+        loadMoreBtn.removeAttr("disabled");
+        loadMoreBtn.text("Load More Results");
     }
 }
 // --------------------------------------------------------------------------------------

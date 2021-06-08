@@ -43,8 +43,9 @@ var searchFetch = function (search) {
         }
     })
     .then(function (response) {
-        renderMasterLong(response, searchCont)
-        console.log(response)
+        checkPages(response, searchPage);
+        renderMasterLong(response, searchCont);
+        console.log(response);
     })
 }
 

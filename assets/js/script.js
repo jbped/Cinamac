@@ -18,6 +18,8 @@ var topRatedCont = $("#rated-content-cont");
 var popFilmsCont = $("#pop-content-cont");
 var inTheatersCont = $("#showing-content-cont")
 var popPeopleCont = $("#pop-people-content-cont")
+var theatersNearby = $("#theaters-container");
+var theaterList = $("#theater-list");
 // GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
@@ -39,34 +41,24 @@ navigator.geolocation.getCurrentPosition(success, error, options);
 // GEOLOCATION ------ END
 fetch(
     'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=theaters&userLocation=&key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh'
-  )
+)
     // Convert the response to JSON
-    .then(function(response) {
-      return response.json();
+    .then(function (response) {
+        return response.json();
     })
-    .then(function(response) {
-        console.log(response)
+    .then(function (response) {
+        console.log(response.resourceSets[0].resources)
+        var theaters = response.resourceSets[0].resources
+        theaters.map(function (theater) {
+            console.log(theater.name)
+            var theaterName = theater.name
+            var theaterAddress = theater.Address.formattedAddress
+            console.log(theater.Address.formattedAddress)
+            $(`<li><div>${theaterName}</div><div>${theaterAddress}</div></li>`).appendTo(theaterList);
+            // created a list inside theaters nearby button with bing api call 
+        })
     });
-// var theatersNearMe = function() {
-//     locationTheaters = JSON.parse(localStorage.getItem("locationTheaters"));
 
-//     if (!locationTheaters) {
-//         fetch (
-//             https://dev.virtualearth.net/REST/v1/LocalSearch/?query=theaters&userLocation=&key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh
-//         )
-//         .then (function(response){
-//             if(response.ok) {
-//                 return response.json();
-//             }
-//         })
-//         .then (function(response){
-//             saveTheatersNearMe(response);
-//         })
-//     }
-// }
-// var saveTheatersNearMe = function(response) {
-//     localStorage.setItem("locationTheaters", JSON.stringify(response));
-// }
 
 // Load or call TMDB Configuration Api
 var configurationApi = function() {

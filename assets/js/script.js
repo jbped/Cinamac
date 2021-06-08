@@ -137,7 +137,7 @@ $("#trend-window").on("click", function(target){
 // Call trending films -- render with (renderTrend())
 var getTrend = function(trendVal) {
     fetch(
-        tmdbUrl + getTrending + trendVal + tmdbKey
+        tmdbUrl + getTrending + "/all/" + trendVal + tmdbKey
     )
     .then (function(response){
         if (response.ok) {

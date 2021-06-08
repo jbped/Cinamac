@@ -47,16 +47,20 @@
                 <h5 class="text-light mt-4">Select Timeframe:</h3>
                 <div id="trend-window" class="btn-group btn-group-toggle w-100" data-toggle="buttons">
                     <label class="btn btn-secondary w-50 active" trend-id="day">
-                        <input type="radio" name="options" id="daily-trend" autocomplete="off" checked>Daily
+                        <input type="radio" name="options" id="daily-trend" autocomplete="off"checked>Daily
                     </label>
                     <label class="btn btn-secondary w-50" trend-id="week">
                         <input type="radio" name="options" id="monthly-trend" autocomplete="off">Weekly
                     </label>
                 </div>
-
+                <button type="button" id="options-btn" class="btn btn-primary btn-block mt-4" onclick=trendSettings();>Filter Trending</button>
             </aside>
             <div class="row col-lg-9">
                 <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
+                <div class="row" id="trending-content-cont">
+                    <!-- DOM Inserted Elements Here -->
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
             </div>
         </div>
         
@@ -73,7 +77,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="./assets/js/global.js"></script>
-    <script src="./assets/js/content.js"></script>
+    <script src="./assets/js/trending.js"></script>
 
 </body>
 </html>

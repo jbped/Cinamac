@@ -60,6 +60,7 @@ var renderSearch = function (response) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
             movTitle.addClass("card-title w-100");
+            movTitle.attr("content-type","movie");
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
@@ -67,12 +68,14 @@ var renderSearch = function (response) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
+            movTitle.attr("content-type","tv");
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }  else {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
+            movTitle.attr("content-type","person");
             postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
             postImg.addClass("card-img-top");
         }

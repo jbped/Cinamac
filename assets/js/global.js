@@ -22,6 +22,7 @@ var popPeopleCont = $("#pop-people-content-cont");
 var genreCont = $("#genre-content-cont");
 var popTVCont = $("#tv-content-cont");
 var loadMoreBtn = $("#load-more");
+var cardDiv = $("#gen-card");
 
 // GEOLOCATION ------ START
 var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
@@ -86,10 +87,12 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
+// Render movie cards from api calls. This function limits the list to 10
 var renderMasterShort = function(response, contentContainer) {
     for (var i = 0; i < 10; i++){
         var genCard = $("<div></div>");
             genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         genCard.append(postImg);
         var cardBody = $("<div></div>");
@@ -103,7 +106,7 @@ var renderMasterShort = function(response, contentContainer) {
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
-        else if (response.results[i].media_type === "tv") {
+        else if (response.results[i].media_type === "tv" || response.results[i].first_air_date) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
@@ -140,13 +143,16 @@ var renderMasterShort = function(response, contentContainer) {
     }
 }
 
+// Render movie cards from api calls. This function will load the entire list. 
 var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
         genCard.addClass("card bg-dark text-light mx-3 my-2 w-25");
+        genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
         cardBody.addClass("card-body");
+        // Specific attributes and styling for MOVIES
         if(response.results[i].media_type === "movie") {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
@@ -156,7 +162,8 @@ var renderMasterLong = function(response, contentContainer){
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
-        else if (response.results[i].media_type === "tv") {
+        // Specific attributes and styling for TV SHOWS
+        else if (response.results[i].media_type === "tv" || response.results[i].first_air_date) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
@@ -165,6 +172,7 @@ var renderMasterLong = function(response, contentContainer){
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }  
+        // Specific attributes and styling for PEOPLE
         else if (response.results[i].gender > -1){
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
@@ -174,6 +182,7 @@ var renderMasterLong = function(response, contentContainer){
             postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
             postImg.addClass("card-img-top");
         } 
+        // Specific attributes and styling for NOW SHOWING IN THEATER
         else {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
@@ -190,6 +199,7 @@ var renderMasterLong = function(response, contentContainer){
     }
 }
 
+// Load More Button Logic - Changes Button state and text dependant on api available pages
 var checkPages = function (response, pageCount) {
     if (pageCount === response.total_pages) {
         loadMoreBtn.attr("disabled", true);
@@ -199,6 +209,27 @@ var checkPages = function (response, pageCount) {
         loadMoreBtn.text("Load More Results");
     }
 }
+
+$(".content-cont").on("click", function(event){
+    var clickedItem = event.target.localName
+    var cardDiv = event.target.classList[0]
+    if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
+        if(cardDiv) {
+
+        } else {
+            var clickedType = event.target.parentNode.attributes[2].nodeValue;
+            var clickedId = target.parentNode.attributes[3].nodeValue;
+        }
+        console.log(event)
+    }
+    cardModal(clickedType, clickedId);
+})
+
+var cardModal = function (type, id) {
+    console.log("A modal will be here!")
+}
+
+
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------

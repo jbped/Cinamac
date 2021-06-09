@@ -61,13 +61,13 @@ fetch(
         return response.json();
     })
     .then(function (response) {
-        console.log(response.resourceSets[0].resources)
-        var theaters = response.resourceSets[0].resources
+        // console.log(response.resourceSets[0].resources);
+        var theaters = response.resourceSets[0].resources;
         theaters.map(function (theater) {
-            console.log(theater.name)
-            var theaterName = theater.name
-            var theaterAddress = theater.Address.formattedAddress
-            console.log(theater.Address.formattedAddress)
+            // console.log(theater.name)
+            var theaterName = theater.name;
+            var theaterAddress = theater.Address.formattedAddress;
+            // console.log(theater.Address.formattedAddress);
             $(`<li><div>${theaterName}</div><div>${theaterAddress}</div></li>`).appendTo(theaterList);
             // created a list inside theaters nearby button with bing api call 
         })

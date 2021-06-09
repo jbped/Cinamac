@@ -214,13 +214,15 @@ $(".content-cont").on("click", function(event){
     var clickedItem = event.target.localName
     var cardDiv = event.target.classList[0]
     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
-        if(cardDiv) {
-
+        if(clickedItem === "h5") {
+            var clickedType = event.target.parentNode.parentNode.attributes[2].nodeValue;
+            var clickedId = event.target.parentNode.parentNode.attributes[3].nodeValue;
         } else {
             var clickedType = event.target.parentNode.attributes[2].nodeValue;
-            var clickedId = target.parentNode.attributes[3].nodeValue;
+            var clickedId = event.target.parentNode.attributes[3].nodeValue;
         }
-        console.log(event)
+        console.log("Type: ", clickedType, "ID: ", clickedId);
+
     }
     cardModal(clickedType, clickedId);
 })

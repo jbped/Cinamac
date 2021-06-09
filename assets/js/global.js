@@ -23,28 +23,21 @@ var genreCont = $("#genre-content-cont");
 var popTVCont = $("#tv-content-cont");
 var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
+// Content Modal Elements
+var modalContentDiv = $("#contentModal");
+var modalContentTitle = $(".modal-title"); 
+var modalContentAside = $("#content-modal-aside")
+var modalContentSection = $("#content-modal-section")
+var modalSectionTop = $("#modal-section-top");
+var modalSectionCenter = $("#modal-section-middle");
+var modalSecCenLeft = $("#modal-middle-left");
+var modalSecCenRight = $("#modal-middle-right");
+var modalSectionBottom = $("#modal-section-bottom");
 
 
-// // GEOLOCATION ------ START
-
-// var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
-
-// function success(pos) {
-//     var crd = pos.coords;
-//     var lat = crd.latitude;
-//     var lon = crd.longitude;
-
-//     console.log(`Your current position is`);
-//     console.log(`Latitude: ${lat}`);
-//     console.log(`Longitude: ${lon}`);
-// }
-// function error(err)
-// {
-//     console.warn(`ERROR(${err.code}): ${err.message}`);
-// }
-
-// navigator.geolocation.getCurrentPosition(success, error, options);
-
+// --------------------------------------------------------------------------------------
+// Get Configuration Api, save to localStorage
+// --------------------------------------------------------------------------------------
 // Load or call TMDB Configuration Api
 var configurationApi = function() {
     configJson = JSON.parse(localStorage.getItem("configJson"));
@@ -89,11 +82,14 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
+// --------------------------------------------------------------------------------------
+// Global Card Rendering Functions
+// --------------------------------------------------------------------------------------
 // Render movie cards from api calls. This function limits the list to 10
 var renderMasterShort = function(response, contentContainer) {
     for (var i = 0; i < 10; i++){
         var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 cus-card-width");
             genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         genCard.append(postImg);
@@ -112,7 +108,7 @@ var renderMasterShort = function(response, contentContainer) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
-            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
@@ -149,7 +145,7 @@ var renderMasterShort = function(response, contentContainer) {
 var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
-        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25");
+        genCard.addClass("card bg-dark text-light mx-3 w-25 my-3 cus-card-width");
         genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
@@ -169,7 +165,7 @@ var renderMasterLong = function(response, contentContainer){
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
-            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
@@ -201,6 +197,300 @@ var renderMasterLong = function(response, contentContainer){
     }
 }
 
+
+// --------------------------------------------------------------------------------------
+// Content Modal Logic --- 1. Click Content Card Event Listener 2. Api Query 3. Render Content Modal
+// --------------------------------------------------------------------------------------
+// On click event for content cards --- starts modal creation process for selected card
+$(".content-cont").on("click", function(event){
+    // console.log(event);
+    var clickedItem = event.target.localName
+    var cardDiv = event.target.classList[0]
+    if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
+        $("#contentModal").modal("show")
+        if(clickedItem === "h5") {
+            var clickedType = event.target.parentNode.parentNode.attributes[2].nodeValue;
+            var clickedId = event.target.parentNode.parentNode.attributes[3].nodeValue;
+        } else {
+            var clickedType = event.target.parentNode.attributes[2].nodeValue;
+            var clickedId = event.target.parentNode.attributes[3].nodeValue;
+        }
+        console.log("Type: ", clickedType, "ID: ", clickedId);
+        
+    }
+    // cardModal();
+    modalContentAside.html("")
+    modalSectionTop.html("");
+    modalSecCenLeft.html("");
+    modalSecCenRight.html("");
+    modalSectionBottom.html("");
+    cardApiCall(clickedType, clickedId);
+})
+
+// Query for Api dependant on content type
+var cardApiCall = function (type, id) {
+    if (type === "movie" || type === "in-theaters") {
+        fetch (
+            tmdbUrl + "movie/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response, type);
+        })
+    } else if (type === "tv") {
+        fetch (
+            tmdbUrl + "tv/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response, type);
+        })
+    }
+    else if (type === "person") {
+        fetch (
+            tmdbUrl + "person/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response, type);
+        })
+    }
+}
+
+// Render the Content Query to the Modal
+var renderModal = function(response, type) {
+    // Specific attributes and styling for MOVIES
+    if(type === "movie" || type === "in-theaters") {
+        // Render Movie Title
+        modalContentTitle.text(response.title);
+
+        // Show Movie Poster
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-100 mb-2");
+
+        // User Review Scores
+        var ratingHeader = $("<h6></h6>");
+            ratingHeader.text("Viewer Score:");
+            ratingHeader.css("display","inline")
+        var ratingTxt = $("<p></p>");
+        if (response.vote_average === 0) {
+            var ratingVal = " N/A"
+        } else {
+            var ratingVal = " " + response.vote_average
+        }
+            ratingTxt.text(ratingVal)
+            ratingTxt.css("display","inline")
+            // Potentially add a color system here
+
+        // Movie Description
+        var descriptionHeader = $("<h6></h6>");
+            descriptionHeader.text("Description:");
+        var descriptionText = $("<p></p>");
+        if (response.overview === "") {
+            var overviewInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var overviewInfo = response.overview
+        }
+            descriptionText.text(overviewInfo);
+
+        // Release Date Information
+        var releaseDateHeader = $("<h6></h6>");
+            releaseDateHeader.text("Release Date:");
+        var releaseDateTxt = $("<p></p>");
+            releaseDateTxt.text(formatDate(response.release_date));
+        
+        // Movie Runtime Information
+        var runtimeHeader = $("<h6></h6>");
+            runtimeHeader.text("Runtime:");
+        var runtimeTxt = $("<p></p>");
+            runtimeTxt.text(response.runtime + " mins");
+        
+        // Movie Budget Information
+        var budgetHeader = $("<h6></h6>");
+            budgetHeader.text("Budget:");
+        var budgetDateTxt = $("<p></p>");
+        if (response.budget === 0) {
+            var budgetVal = " N/A"
+        } else {
+            var budgetVal = "$" + numberWithCommas(response.budget)
+        }
+        budgetDateTxt.text(budgetVal);
+
+        // Movie Revenue Information
+        var revenueHeader = $("<h6></h6>");
+            revenueHeader.text("Revenue:");
+        var revenueTxt = $("<p></p>");
+        if (response.revenue === 0) {
+            var revenueVal = " N/A"
+        } else {
+            var revenueVal = "$" + numberWithCommas(response.revenue)
+        }
+            revenueTxt.text(revenueVal);
+
+        // Append Elements to DOM
+        modalContentAside.append(contentImg, ratingHeader,ratingTxt);
+        modalSectionTop.append(descriptionHeader, descriptionText);
+        modalSecCenLeft.append(releaseDateHeader, releaseDateTxt, runtimeHeader, runtimeTxt);
+        modalSecCenRight.append(budgetHeader, budgetDateTxt, revenueHeader, revenueTxt);
+    }
+    // Specific attributes and styling for TV SHOWS
+    else if(type === "tv") {
+        // Render TV Show Title
+        modalContentTitle.text(response.name);
+
+         // Show Movie Poster
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-100 mb-2");
+
+         // User Review Scores
+        var ratingHeader = $("<h6></h6>");
+            ratingHeader.text("Viewer Score:");
+            ratingHeader.css("display","inline")
+        var ratingTxt = $("<p></p>");
+        if (response.vote_average === 0) {
+            var ratingVal = " N/A"
+        } else {
+            var ratingVal = " " + response.vote_average
+        }
+            ratingTxt.text(ratingVal)
+            ratingTxt.css("display","inline")
+            // Potentially add a color system here
+
+        // Movie Description
+        var descriptionHeader = $("<h6></h6>");
+            descriptionHeader.text("Description:");
+        var descriptionText = $("<p></p>");
+        if (response.overview === "") {
+            var overviewInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var overviewInfo = response.overview
+        }
+            descriptionText.text(overviewInfo);
+        
+        // Network the TV Show is on
+        var producerHeader = $("<h6></h6>");
+            producerHeader.text("Network:");
+        var producerTxt = $("<p></p>");
+            producerTxt.text(response.networks[(response.networks.length - 1)].name);
+        
+        // First Air Date 
+        var firstAiredHeader = $("<h6></h6>");
+            firstAiredHeader.text("First Aired:");
+        var firstAiredTxt = $("<p></p>");
+        if (response.first_air_date === null) {
+            var firstAirDate = "To Be Announced"
+        } else {
+            var firstAirDate = formatDate(response.first_air_date)
+        }
+            firstAiredTxt.text(firstAirDate);
+
+        // Most Recent Episode Handler
+        var mostRecentEpHeader = $("<h6></h6>");
+            mostRecentEpHeader.text("Last Aired Episode:");
+        var mostRecentEpTxt = $("<p></p>");
+        if (response.last_episode_to_air === null || response.last_air_date === null) {
+            var lastAirDate = "To Be Announced"
+        } else {
+            var lastAirDate = response.last_episode_to_air.name + " - " + formatDate(response.last_air_date)
+        }
+            mostRecentEpTxt.text(lastAirDate);
+
+        // On Going TV Show Handler
+        var onGoingHeader = $("<h6></h6>");
+            onGoingHeader.text("Series On-Going?");
+        var onGoingTxt = $("<p></p>");
+        if(response.in_production){
+            var seriesStatus = "Yes"
+        } else {
+            var seriesStatus = "No"
+        }
+            onGoingTxt.text(seriesStatus);
+
+        // Season Count Handler
+        var seasonsHeader = $("<h6></h6>");
+            seasonsHeader.text("Seasons:");
+        if (response.number_of_seasons > 1) {
+            var seasonCnt = " seasons"
+        } else {
+            var seasonCnt = " season"
+        }
+        var seasonsTxt = $("<p></p>");
+            seasonsTxt.text(response.number_of_seasons + seasonCnt);
+
+        // Episode Count Handler
+        var episodesHeader = $("<h6></h6>");
+            episodesHeader.text("Episodes:");
+        if (response.number_of_episodes > 1) {
+            var episodeCnt = " episodes"
+        } else {
+            var episodeCnt = " episode"
+        }
+        var episodesTxt = $("<p></p>");
+            episodesTxt.text(response.number_of_episodes + episodeCnt);
+        
+        // Append Elements to DOM
+        modalContentAside.append(contentImg, ratingHeader,ratingTxt);
+        modalSectionTop.append(descriptionHeader, descriptionText); 
+        modalSecCenLeft.append(producerHeader, producerTxt, firstAiredHeader, firstAiredTxt, mostRecentEpHeader, mostRecentEpTxt);   
+        modalSecCenRight.append(onGoingHeader, onGoingTxt, seasonsHeader, seasonsTxt, episodesHeader, episodesTxt);
+    }
+    else if(type === "person") {
+        modalContentTitle.text(response.name);
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.profile_path)
+            contentImg.addClass("w-100 mb-2");
+        var birthdayHeader = $("<h6></h6>");
+            birthdayHeader.text("Date of Birth:");
+        var birthdayTxt = $("<p></p>");
+            birthdayTxt.text(formatDate(response.birthday));
+        var birthplaceHeader = $("<h6></h6>");
+            birthplaceHeader.text("Place of Birth:");
+        var birthplaceTxt = $("<p></p>");
+            birthplaceTxt.text(response.place_of_birth);
+        modalContentAside.append(contentImg, birthdayHeader, birthdayTxt, birthplaceHeader, birthplaceTxt);
+        if (response.deathday !== null) {
+            var deathdayHeader = $("<h6></h6>");
+                deathdayHeader.text("Date of Death:");
+            var deathdayTxt =  $("<p></p>");
+                deathdayTxt.text(formatDate(response.deathday));
+            modalContentAside.append(deathdayHeader,deathdayTxt);
+        }
+        var biographyHeader = $("<h6></h6>");
+            biographyHeader.text("Biography:");
+        var biographyText = $("<p></p>");
+        if (response.biography === "") {
+            var bioInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var bioInfo = response.biography
+        }
+            biographyText.text(bioInfo);
+        modalSectionTop.append(biographyHeader, biographyText);
+    }
+}
+
+// --------------------------------------------------------------------------------------
+// Uncategorized Functions
+// --------------------------------------------------------------------------------------
 // Load More Button Logic - Changes Button state and text dependant on api available pages
 var checkPages = function (response, pageCount) {
     if (pageCount === response.total_pages) {
@@ -212,26 +502,18 @@ var checkPages = function (response, pageCount) {
     }
 }
 
-// $(".content-cont").on("click", function(event){
-//     var clickedItem = event.target.localName
-//     var cardDiv = event.target.classList[0]
-//     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
-//         if(cardDiv) {
+// Converts Integers to comma separated strings
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-//         } else {
-//             var clickedType = event.target.parentNode.attributes[2].nodeValue;
-//             var clickedId = target.parentNode.attributes[3].nodeValue;
-//         }
-//         console.log(event)
-//     }
-//     cardModal(clickedType, clickedId);
-// })
-
-// var cardModal = function (type, id) {
-//     console.log("A modal will be here!")
-// }
-
-
+function formatDate(inputDate) {
+    var date = new Date(inputDate);
+    if (!isNaN(date.getTime())) {
+        // Months use 0 index.
+        return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+    }
+}
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------

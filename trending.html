@@ -53,6 +53,43 @@
     </header>
 
     <main class="container-fluid" content-pg="trending">
+        <div class="modal" tabindex="-1" role="dialog" id="contentModal">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content bg-dark text-light border-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="modal-close">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <aside class="col-md-4" id="content-modal-aside">
+                                </aside>
+                                <section class="col-md-8 container-fluid" id="content-modal-section">
+                                    <div class="row" id="modal-section-top">
+                                        <!-- Bio/Description -->
+                                    </div>
+                                    <div class="row" id="modal-section-middle">
+                                        <div class="col-lg-6" id="modal-middle-left"></div>
+                                        <div class="col-lg-6" id="modal-middle-right"></div>
+                                        <!-- Release Date/Birthday -->
+                                        <!-- Rating/Popularity -->
+                                        <!-- Runtime -->
+                                    </div>
+                                    <div class="row" id="modal-section-bottom">
+                                        <!-- Similar Title/Known for -->
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <aside class="col-lg-2 m-lg-3 p-3">
                 <h5 class="text-light">Select Media Type:</h3>
@@ -74,9 +111,13 @@
                 <button type="button" id="options-btn" class="btn btn-primary btn-block mt-4" onclick=trendSettings();>Filter Trending</button>
             </aside>
             <div class="row col-lg-9">
-                <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
-                <div class="row" id="trending-content-cont">
-                    <!-- DOM Inserted Elements Here -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
+                    </div>
+                    <div class="row content-cont" id="trending-content-cont">
+                        <!-- DOM Inserted Elements Here -->
+                    </div>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
             </div>

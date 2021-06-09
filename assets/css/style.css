@@ -12,12 +12,20 @@
     --dark-darker-10: #20262c;
     --dark-darker-20: #1d2227;
     --dark-darker-30: #191d22;
-    --dark-darker-40: #191d22;
+    --dark-darker-40: #171a1f;
 }
 
+body {
+    background: var(--dark-darker-20);
+}
+
+/* -------------------------------------------------------- */
+/* Header Styling Start */
+/* -------------------------------------------------------- */
+
 header {
+    background-color: var(--dark-darker-30);
     /* position: sticky; */
-    background-color: var(--dark-darker-40);
     z-index: 5;
     top: 0;
 }
@@ -45,10 +53,6 @@ header span:hover {
     background-color: var(--forth);
 }
 
-body {
-    background: var(--dark-darker-20);
-}
-
 .header-bg {
     background-color: var(--primary-dark);
     padding: .5rem .75rem;
@@ -60,17 +64,67 @@ body {
     color: var(--primary);
     font-family: 'Bungee', cursive;
 }
+/* //////////////////////////////////////////////////////// */
+  
 
+
+/* -------------------------------------------------------- */
+/* Modal Styling Start */
+/* -------------------------------------------------------- */
+.modal-header {
+    border-color: var(--dark-darker-10);
+}
+.modal-close {
+    color: var(--fifth);
+    text-shadow:none;
+    
+}
+.modal-footer {
+    border-color: var(--dark-darker-10);
+}
+
+.modal-title {
+    color: var(--fifth);
+}
+
+.modal h6{
+    color: var(--primary)
+}
+
+#modal-content-img {
+    box-shadow: 0 7px 12px var(--dark-darker-10);
+}
+/* //////////////////////////////////////////////////////// */
+
+
+/* -------------------------------------------------------- */
+/* Rendered Content Card Styling Start */
+/* -------------------------------------------------------- */
+.card:hover {
+    cursor: pointer;
+    box-shadow: 7px 10px 10px #111418;
+    transform: scale(1.01);
+}
 .horz-cont {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
 }
 
+.cus-card-width {
+    /* width: 225px; */
+    width: 25%;
+}
+
 .film-card{
    flex: 0 0 auto;
 }
+/* //////////////////////////////////////////////////////// */
 
+
+/* -------------------------------------------------------- */
+/* Custom Scrollbar Styling Start */
+/* -------------------------------------------------------- */
 ::-webkit-scrollbar {
     height: .5em;
 }
@@ -88,7 +142,80 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(14, 14, 14);
 }
+/* //////////////////////////////////////////////////////// */
 
+/* -------------------------------------------------------- */
+/* Button Styling Start */
+/* -------------------------------------------------------- */
+.btn-primary {
+    background-color: var(--fifth);
+    color: black;
+    border-color:#50b667;
+}
+.btn-primary:hover {
+    background-color: #4ee455;
+    color: black;
+    border-color:#327241;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    background-color: #4ee455;
+    color: black;
+    border-color:#327241;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(50, 114, 65,.5);
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba(50, 114, 65,.5);
+}
+
+.list-group-item {
+    background-color: var(--primary-dark);
+    color: var(--dark-light-40);
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-item:hover {
+    cursor:pointer;
+}
+
+.list-group-item-action:focus, .list-group-item-action:hover {
+    color: #f8f9fa;
+    text-decoration: none;
+    background-color: var(--dark-light-10);
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: black;
+    background-color: var(--fifth);
+    border-color: #327241;
+}
+/* //////////////////////////////////////////////////////// */
+
+/* -------------------------------------------------------- */
+/* Search Bar Styling Start */
+/* -------------------------------------------------------- */
+.form-control {
+    background-color: var(--primary-dark);
+    border-color: var(--dark-light-10) 
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: var(--primary-dark);
+    border-color: var(--dark-light-10);
+    outline: 0;
+    box-shadow: 0 0 0 .2rem var(--dark-darker-10);
+}
+/* //////////////////////////////////////////////////////// */
+
+/* -------------------------------------------------------- */
+/* Media Queries Start */
+/* -------------------------------------------------------- */
 @media screen and (max-width:1000px) {
     .horz-cont{
         flex-wrap:wrap;
@@ -102,7 +229,7 @@ body {
       
      }
 }
-@media screen and (max-width:570px) {
+@media screen and (max-width:768px) {
     .horz-cont{
         flex-wrap:wrap;
         justify-content: space-around;
@@ -113,4 +240,8 @@ body {
     .film-card{
         flex: 1 1 100%;
      }
+    #modal-content-img {
+       padding: 0 15%;
+       box-shadow: none;
+    }
 }

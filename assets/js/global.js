@@ -23,6 +23,16 @@ var genreCont = $("#genre-content-cont");
 var popTVCont = $("#tv-content-cont");
 var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
+// Content Modal Elements
+var modalContentDiv = $("#contentModal");
+var modalContentTitle = $(".modal-title"); 
+var modalContentAside = $("#content-modal-aside")
+var modalContentSection = $("#content-modal-section")
+var modalSectionTop = $("#modal-section-top");
+var modalSectionCenter = $("#modal-section-middle");
+var modalSecCenLeft = $("#modal-middle-left");
+var modalSecCenRight = $("#modal-middle-right");
+var modalSectionBottom = $("#modal-section-bottom");
 
 // --------------------------------------------------------------------------------------
 // Get Configuration Api, save to localStorage
@@ -192,6 +202,7 @@ var renderMasterLong = function(response, contentContainer){
 // --------------------------------------------------------------------------------------
 // On click event for content cards --- starts modal creation process for selected card
 $(".content-cont").on("click", function(event){
+    // console.log(event);
     var clickedItem = event.target.localName
     var cardDiv = event.target.classList[0]
     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
@@ -207,6 +218,11 @@ $(".content-cont").on("click", function(event){
         
     }
     // cardModal();
+    modalContentAside.html("")
+    modalSectionTop.html("");
+    modalSecCenLeft.html("");
+    modalSecCenRight.html("");
+    modalSectionBottom.html("");
     cardApiCall(clickedType, clickedId);
 })
 
@@ -252,92 +268,139 @@ var cardApiCall = function (type, id) {
 }
 
 var renderModal = function(response, type) {
-    console.log(response);
-    var modalContentDiv = $("#contentModal");
-    var modalContentTitle = $(".modal-title"); 
-    var modalContentAside = $("#content-modal-aside")
-    var modalContentSection = $("#content-modal-section")
-    var modalSectionTop = $("#modal-section-top");
-    var modalSectionCenter = $("#modal-section-middle");
-    var modalSecCenLeft = $("#modal-middle-left");
-    var modalSecCenRight = $("#modal-middle-right");
-    var modalSectionBottom = $("#modal-section-bottom");
-    // Reset Modal
-    modalContentAside.html("")
-    modalSectionTop.html("");
-    modalSecCenLeft.html("");
-    modalSecCenRight.html("");
-    modalSectionBottom.html("");
-
     // Specific attributes and styling for MOVIES
     if(type === "movie" || type === "in-theaters") {
+        // Render Movie Title
         modalContentTitle.text(response.title);
+
+        // Show Movie Poster
         var contentImg = $("<img></img>");
             contentImg.attr("id", "modal-content-img");
             contentImg.addClass("w-25")
             contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
             contentImg.addClass("w-100 mb-2");
+
+        // User Review Scores
         var ratingHeader = $("<h6></h6>");
             ratingHeader.text("Viewer Score:");
             ratingHeader.css("display","inline")
         var ratingTxt = $("<p></p>");
-            ratingTxt.text(" " + response.vote_average)
+        if (response.vote_average === 0) {
+            var ratingVal = " N/A"
+        } else {
+            var ratingVal = " " + response.vote_average
+        }
+            ratingTxt.text(ratingVal)
             ratingTxt.css("display","inline")
             // Potentially add a color system here
+
+        // Movie Description
         var descriptionHeader = $("<h6></h6>");
             descriptionHeader.text("Description:");
         var descriptionText = $("<p></p>");
-            descriptionText.text(response.overview);
+        if (response.overview === "") {
+            var overviewInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var overviewInfo = response.overview
+        }
+            descriptionText.text(overviewInfo);
+
+        // Release Date Information
         var releaseDateHeader = $("<h6></h6>");
             releaseDateHeader.text("Release Date:");
         var releaseDateTxt = $("<p></p>");
             releaseDateTxt.text(formatDate(response.release_date));
+        
+        // Movie Runtime Information
         var runtimeHeader = $("<h6></h6>");
             runtimeHeader.text("Runtime:");
         var runtimeTxt = $("<p></p>");
             runtimeTxt.text(response.runtime + " mins");
+        
+        // Movie Budget Information
         var budgetHeader = $("<h6></h6>");
             budgetHeader.text("Budget:");
         var budgetDateTxt = $("<p></p>");
             budgetDateTxt.text("$" + numberWithCommas(response.budget));
+
+        // Movie Revenue Information
         var revenueHeader = $("<h6></h6>");
             revenueHeader.text("Revenue:");
         var revenueTxt = $("<p></p>");
             revenueTxt.text("$" + numberWithCommas(response.revenue));
+
+        // Append Elements to DOM
         modalContentAside.append(contentImg, ratingHeader,ratingTxt);
         modalSectionTop.append(descriptionHeader, descriptionText);
         modalSecCenLeft.append(releaseDateHeader, releaseDateTxt, runtimeHeader, runtimeTxt);
         modalSecCenRight.append(budgetHeader, budgetDateTxt, revenueHeader, revenueTxt);
     }
+    // Specific attributes and styling for TV SHOWS
     else if(type === "tv") {
+        // Render TV Show Title
+        modalContentTitle.text(response.name);
+
+         // Show Movie Poster
         var contentImg = $("<img></img>");
             contentImg.attr("id", "modal-content-img");
             contentImg.addClass("w-25")
             contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
             contentImg.addClass("w-100 mb-2");
+
+         // User Review Scores
         var ratingHeader = $("<h6></h6>");
             ratingHeader.text("Viewer Score:");
             ratingHeader.css("display","inline")
         var ratingTxt = $("<p></p>");
-            ratingTxt.text(" " + response.vote_average)
+        if (response.vote_average === 0) {
+            var ratingVal = " N/A"
+        } else {
+            var ratingVal = " " + response.vote_average
+        }
+            ratingTxt.text(ratingVal)
             ratingTxt.css("display","inline")
             // Potentially add a color system here
+
+        // Movie Description
         var descriptionHeader = $("<h6></h6>");
             descriptionHeader.text("Description:");
         var descriptionText = $("<p></p>");
-            descriptionText.text(response.overview);
+        if (response.overview === "") {
+            var overviewInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var overviewInfo = response.overview
+        }
+            descriptionText.text(overviewInfo);
+        
+        // Network the TV Show is on
         var producerHeader = $("<h6></h6>");
             producerHeader.text("Network:");
         var producerTxt = $("<p></p>");
             producerTxt.text(response.networks[(response.networks.length - 1)].name);
+        
+        // First Air Date 
         var firstAiredHeader = $("<h6></h6>");
             firstAiredHeader.text("First Aired:");
         var firstAiredTxt = $("<p></p>");
-            firstAiredTxt.text(formatDate(response.first_air_date));
+        if (response.first_air_date === null) {
+            var firstAirDate = "To Be Announced"
+        } else {
+            var firstAirDate = formatDate(response.first_air_date)
+        }
+            firstAiredTxt.text(firstAirDate);
+
+        // Most Recent Episode Handler
         var mostRecentEpHeader = $("<h6></h6>");
             mostRecentEpHeader.text("Last Aired Episode:");
         var mostRecentEpTxt = $("<p></p>");
-            mostRecentEpTxt.text(response.last_episode_to_air.name + " - " + formatDate(response.last_air_date));
+        if (response.last_episode_to_air === null || response.last_air_date === null) {
+            var lastAirDate = "To Be Announced"
+        } else {
+            var lastAirDate = response.last_episode_to_air.name + " - " + formatDate(response.last_air_date)
+        }
+            mostRecentEpTxt.text(lastAirDate);
+
+        // On Going TV Show Handler
         var onGoingHeader = $("<h6></h6>");
             onGoingHeader.text("Series On-Going?");
         var onGoingTxt = $("<p></p>");
@@ -347,6 +410,8 @@ var renderModal = function(response, type) {
             var seriesStatus = "No"
         }
             onGoingTxt.text(seriesStatus);
+
+        // Season Count Handler
         var seasonsHeader = $("<h6></h6>");
             seasonsHeader.text("Seasons:");
         if (response.number_of_seasons > 1) {
@@ -356,6 +421,8 @@ var renderModal = function(response, type) {
         }
         var seasonsTxt = $("<p></p>");
             seasonsTxt.text(response.number_of_seasons + seasonCnt);
+
+        // Episode Count Handler
         var episodesHeader = $("<h6></h6>");
             episodesHeader.text("Episodes:");
         if (response.number_of_episodes > 1) {
@@ -366,6 +433,7 @@ var renderModal = function(response, type) {
         var episodesTxt = $("<p></p>");
             episodesTxt.text(response.number_of_episodes + episodeCnt);
         
+        // Append Elements to DOM
         modalContentAside.append(contentImg, ratingHeader,ratingTxt);
         modalSectionTop.append(descriptionHeader, descriptionText); 
         modalSecCenLeft.append(producerHeader, producerTxt, firstAiredHeader, firstAiredTxt, mostRecentEpHeader, mostRecentEpTxt);   
@@ -397,7 +465,12 @@ var renderModal = function(response, type) {
         var biographyHeader = $("<h6></h6>");
             biographyHeader.text("Biography:");
         var biographyText = $("<p></p>");
-            biographyText.text(response.biography);
+        if (response.biography === "") {
+            var bioInfo = "We're sorry, unfortunately, there is no information available for " + response.name + " at this time."
+        } else  {
+            var bioInfo = response.biography
+        }
+            biographyText.text(bioInfo);
         modalSectionTop.append(biographyHeader, biographyText);
     }
 }

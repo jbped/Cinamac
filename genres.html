@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
+
 <body>
     <header>
         <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
@@ -46,17 +48,18 @@
         </nav>
     </header>
 
-    <main class="container text-light">
+    <main class="container-fluid" content-pg="genres">
         <div class="row">
-            <h2 id="page-title" class="col-12 p-0">Search Results</h2>
-            <h4>Searched: <em><span id="search-query"></span></em></h4>
+            <aside class="col-lg-3">
+
+            </aside>
+            <div class="row col-lg-9">
+
+            </div>
         </div>
-        <div class="row" id="search-content-cont">
-            <!-- DOM Inserted Elements Here -->
-        </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+
+        
     </main>
-    
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -69,6 +72,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="./assets/js/global.js"></script>
-    <script src="./assets/js/search.js"></script>
+    <script src="./assets/js/content.js"></script>
 </body>
 </html>

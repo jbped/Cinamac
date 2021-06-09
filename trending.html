@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
+
 <body>
     <header>
         <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
@@ -46,17 +48,37 @@
         </nav>
     </header>
 
-    <main class="container text-light">
+    <main class="container-fluid" content-pg="trending">
         <div class="row">
-            <h2 id="page-title" class="col-12 p-0">Search Results</h2>
-            <h4>Searched: <em><span id="search-query"></span></em></h4>
+            <aside class="col-lg-2 m-lg-3 p-3">
+                <h5 class="text-light">Select Media Type:</h3>
+                <ul id="media-type-group" class="list-group">
+                    <li class="list-group-item list-group-item-action active" trend-type="all">All</li>
+                    <li class="list-group-item list-group-item-action" trend-type="movie">Movies</li>
+                    <li class="list-group-item list-group-item-action" trend-type="tv">TV Shows</li>
+                    <li class="list-group-item list-group-item-action" trend-type="person">People</li>
+                </ul>
+                <h5 class="text-light mt-4">Select Timeframe:</h3>
+                <div id="trend-window" class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                    <label class="btn btn-secondary w-50 active" trend-id="day">
+                        <input type="radio" name="options" id="daily-trend" autocomplete="off"checked>Daily
+                    </label>
+                    <label class="btn btn-secondary w-50" trend-id="week">
+                        <input type="radio" name="options" id="monthly-trend" autocomplete="off">Weekly
+                    </label>
+                </div>
+                <button type="button" id="options-btn" class="btn btn-primary btn-block mt-4" onclick=trendSettings();>Filter Trending</button>
+            </aside>
+            <div class="row col-lg-9">
+                <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
+                <div class="row" id="trending-content-cont">
+                    <!-- DOM Inserted Elements Here -->
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+            </div>
         </div>
-        <div class="row" id="search-content-cont">
-            <!-- DOM Inserted Elements Here -->
-        </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+        
     </main>
-    
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -69,6 +91,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="./assets/js/global.js"></script>
-    <script src="./assets/js/search.js"></script>
+    <script src="./assets/js/trending.js"></script>
+
 </body>
 </html>

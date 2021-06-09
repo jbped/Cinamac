@@ -12,26 +12,44 @@
 
 <body>
     <header>
-        <div class="container">
-            <div class="row">
-                <span class="col-lg-1" onclick="openNav()">&#9776;</span>
-                <h1 class="col-lg-6">Cinamac!</h1>
-                <div class="col-lg-5 d-flex align-item-center">
-                    <form class="form-inline w-100 flex-nowrap" id="basic-search">
-                        <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
-                            id="basic-search-input" spellcheck="true">
-                        <button class="btn btn-primary" id="basic-search-btn">Search</button>
-                    </form>
-                </div>
-                <div id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="#trend-title">Trending</a>
-                    <a href="#genre-title">Genres</a>
-                    <a href="#people-title">People</a>
-                    <a href="#discover-title">Discover</a>
-                </div>
+        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
+    
+            <h1 class="pr-5">Cinamac!</h1>
+    
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+    
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./trending.html">Trending</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./in-theaters.html">In Theaters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./genres.html">Genres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./people.html">People</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./popular-tv.html">Popular Tv Shows</a>
+                    </li>
+                </ul>
+    
+                <form class="form-inline flex-nowrap" id="basic-search">
+                    <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
+                        id="basic-search-input" spellcheck="true">
+                    <button class="btn btn-primary" id="basic-search-btn">Search</button>
+                </form>
             </div>
-        </div>
+        </nav>
+    
         <div class="container">
             <div class="float-right mt-1">
                 <!-- Button to Open the Modal -->
@@ -48,9 +66,11 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
     
-                    <div class="modal-body">
-                        Theaters Nearby
+                    <div class="modal-body" id="theaters-container">
+                        <h2>Theaters Nearby</h2>
+                        <ul id="theater-list"></ul>
                     </div>
+    
     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -59,6 +79,7 @@
     </header>
     
     <main class="container">
+        <!-- TRENDING FILMS SECTION -->
         <section class="row my-5">
             <div id="trend-header" class="d-flex col-12 header-bg">
                 <h2 id="trending-title" class="pl-0">Trending Films</h2>
@@ -76,19 +97,10 @@
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
-            <h5 class="ml-auto pr-3"><a href="#">See More</a></h5>
+            <h5 class="ml-auto pr-3 mt-2"><a href="./trending.html">See More</a></h5>
         </section>
-        <section class="row my-5">
-            <div id="pop-header" class="d-flex col-12 header-bg">    
-                <h2 id="pop-title" class="pl-0">Popular Films</h2>
-            </div>
-            <div id="pop-cont" class="horz-cont col-12">
-                <div id="pop-content-cont" class="content-cont horz-cont">
-                    <!-- DOM Inserted Elements Here -->
-                </div>
-            </div>
-            <h5 class="ml-auto pr-3"><a href="#">See More</a></h5>
-        </section>
+
+        <!-- IN THEATERS SECTION -->
         <section class="row my-5">
             <div id="showing-header" class="d-flex col-12 header-bg">    
                 <h2 id="showing-title" class="pl-0">In Theaters</h2>
@@ -98,9 +110,11 @@
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
-            <h5 class="ml-auto pr-3"><a href="#">See More</a></h5>
+            <h5 class="ml-auto pr-3 mt-2"><a href="./in-theaters.html">See More</a></h5>
         </section>
-        <section class="row">
+
+        <!-- POPULAR PEOPLE SECTION -->
+        <section class="row my-5">
             <div id="pop-people-header" class="d-flex col-12 header-bg">    
                 <h2 id="pop-people-title" class="pl-0">People</h2>
             </div>
@@ -109,9 +123,11 @@
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
-            <h5 class="ml-auto pr-3"><a href="#">See More</a></h5>
+            <h5 class="ml-auto pr-3 mt-2"><a href="./people.html">See More</a></h5>
         </section>
-        <section class="row">
+
+        <!-- GENRES SECTION -->
+        <section class="row my-5">
             <div id="genre-header" class="d-flex col-12 header-bg">    
                 <h2 id="genre-title" class="pl-0">Genres</h2>
             </div>
@@ -120,6 +136,19 @@
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
+        </section>
+
+        <!-- POPULAR TV SHOWS SECTION -->
+        <section class="row my-5">
+            <div id="tv-header" class="d-flex col-12 header-bg">    
+                <h2 id="pop-title" class="pl-0">Popular TV Shows</h2>
+            </div>
+            <div id="tv-cont" class="horz-cont col-12">
+                <div id="tv-content-cont" class="content-cont horz-cont">
+                    <!-- DOM Inserted Elements Here -->
+                </div>
+            </div>
+            <h5 class="ml-auto pr-3 mt-2"><a href="./popular-tv.html">See More</a></h5>
         </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.js"

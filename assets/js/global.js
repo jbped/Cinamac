@@ -25,23 +25,23 @@ var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
 
 // GEOLOCATION ------ START
-var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
+// var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
 
-function success(pos) {
-    var crd = pos.coords;
-    var lat = crd.latitude;
-    var lon = crd.longitude;
+// function success(pos) {
+//     var crd = pos.coords;
+//     var lat = crd.latitude;
+//     var lon = crd.longitude;
 
-    console.log(`Your current position is`);
-    console.log(`Latitude: ${lat}`);
-    console.log(`Longitude: ${lon}`);
-}
-function error(err)
-{
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-}
+//     console.log(`Your current position is`);
+//     console.log(`Latitude: ${lat}`);
+//     console.log(`Longitude: ${lon}`);
+// }
+// function error(err)
+// {
+//     console.warn(`ERROR(${err.code}): ${err.message}`);
+// }
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+// navigator.geolocation.getCurrentPosition(success, error, options);
 
 // Load or call TMDB Configuration Api
 var configurationApi = function() {

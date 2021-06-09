@@ -254,8 +254,7 @@ var cardApiCall = function (type, id) {
 var renderModal = function(response, type) {
     console.log(response);
     var modalContentDiv = $("#contentModal");
-    var modalContentTitle = $(".modal-title");
-    var modalContentImg = $("#modal-content-img"); 
+    var modalContentTitle = $(".modal-title"); 
     var modalContentAside = $("#content-modal-aside")
     var modalContentSection = $("#content-modal-section")
     var modalSectionTop = $("#modal-section-top");
@@ -264,7 +263,7 @@ var renderModal = function(response, type) {
     var modalSecCenRight = $("#modal-middle-right");
     var modalSectionBottom = $("#modal-section-bottom");
     // Reset Modal
-    modalContentImg.attr("src", "")
+    modalContentAside.html("")
     modalSectionTop.html("");
     modalSecCenLeft.html("");
     modalSecCenRight.html("");
@@ -273,8 +272,18 @@ var renderModal = function(response, type) {
     // Specific attributes and styling for MOVIES
     if(type === "movie" || type === "in-theaters") {
         modalContentTitle.text(response.title);
-        modalContentImg.attr("src", imgUrl + postSizCust + response.poster_path)
-        modalContentImg.addClass("w-100");
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-100 mb-2");
+        var ratingHeader = $("<h6></h6>");
+            ratingHeader.text("Viewer Score:");
+            ratingHeader.css("display","inline")
+        var ratingTxt = $("<p></p>");
+            ratingTxt.text(" " + response.vote_average)
+            ratingTxt.css("display","inline")
+            // Potentially add a color system here
         var descriptionHeader = $("<h6></h6>");
             descriptionHeader.text("Description:");
         var descriptionText = $("<p></p>");
@@ -295,15 +304,24 @@ var renderModal = function(response, type) {
             revenueHeader.text("Revenue:");
         var revenueTxt = $("<p></p>");
             revenueTxt.text("$" + numberWithCommas(response.revenue));
-
+        modalContentAside.append(contentImg, ratingHeader,ratingTxt);
         modalSectionTop.append(descriptionHeader, descriptionText);
         modalSecCenLeft.append(releaseDateHeader, releaseDateTxt, runtimeHeader, runtimeTxt);
         modalSecCenRight.append(budgetHeader, budgetDateTxt, revenueHeader, revenueTxt);
     }
-    if(type === "tv") {
-        modalContentTitle.text(response.name);
-        modalContentImg.attr("src", imgUrl + postSizCust + response.poster_path)
-        modalContentImg.addClass("w-100");
+    else if(type === "tv") {
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-100 mb-2");
+        var ratingHeader = $("<h6></h6>");
+            ratingHeader.text("Viewer Score:");
+            ratingHeader.css("display","inline")
+        var ratingTxt = $("<p></p>");
+            ratingTxt.text(" " + response.vote_average)
+            ratingTxt.css("display","inline")
+            // Potentially add a color system here
         var descriptionHeader = $("<h6></h6>");
             descriptionHeader.text("Description:");
         var descriptionText = $("<p></p>");
@@ -347,10 +365,40 @@ var renderModal = function(response, type) {
         }
         var episodesTxt = $("<p></p>");
             episodesTxt.text(response.number_of_episodes + episodeCnt);
-
+        
+        modalContentAside.append(contentImg, ratingHeader,ratingTxt);
         modalSectionTop.append(descriptionHeader, descriptionText); 
         modalSecCenLeft.append(producerHeader, producerTxt, firstAiredHeader, firstAiredTxt, mostRecentEpHeader, mostRecentEpTxt);   
         modalSecCenRight.append(onGoingHeader, onGoingTxt, seasonsHeader, seasonsTxt, episodesHeader, episodesTxt);
+    }
+    else if(type === "person") {
+        modalContentTitle.text(response.name);
+        var contentImg = $("<img></img>");
+            contentImg.attr("id", "modal-content-img");
+            contentImg.addClass("w-25")
+            contentImg.attr("src", imgUrl + postSizCust + response.profile_path)
+            contentImg.addClass("w-100 mb-2");
+        var birthdayHeader = $("<h6></h6>");
+            birthdayHeader.text("Date of Birth:");
+        var birthdayTxt = $("<p></p>");
+            birthdayTxt.text(formatDate(response.birthday));
+        var birthplaceHeader = $("<h6></h6>");
+            birthplaceHeader.text("Place of Birth:");
+        var birthplaceTxt = $("<p></p>");
+            birthplaceTxt.text(response.place_of_birth);
+        modalContentAside.append(contentImg, birthdayHeader, birthdayTxt, birthplaceHeader, birthplaceTxt);
+        if (response.deathday !== null) {
+            var deathdayHeader = $("<h6></h6>");
+                deathdayHeader.text("Date of Death:");
+            var deathdayTxt =  $("<p></p>");
+                deathdayTxt.text(formatDate(response.deathday));
+            modalContentAside.append(deathdayHeader,deathdayTxt);
+        }
+        var biographyHeader = $("<h6></h6>");
+            biographyHeader.text("Biography:");
+        var biographyText = $("<p></p>");
+            biographyText.text(response.biography);
+        modalSectionTop.append(biographyHeader, biographyText);
     }
 }
 

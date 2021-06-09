@@ -134,7 +134,7 @@ var renderMasterShort = function(response, contentContainer) {
 var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
-        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25 cus-card-width");
+        genCard.addClass("card bg-dark text-light mx-3 w-25 my-3 cus-card-width");
         genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
@@ -295,7 +295,7 @@ var renderModal = function(response, type) {
             revenueHeader.text("Revenue:");
         var revenueTxt = $("<p></p>");
             revenueTxt.text("$" + numberWithCommas(response.revenue));
-            
+
         modalSectionTop.append(descriptionHeader, descriptionText);
         modalSecCenLeft.append(releaseDateHeader, releaseDateTxt, runtimeHeader, runtimeTxt);
         modalSecCenRight.append(budgetHeader, budgetDateTxt, revenueHeader, revenueTxt);

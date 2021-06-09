@@ -12,7 +12,7 @@
     --dark-darker-10: #20262c;
     --dark-darker-20: #1d2227;
     --dark-darker-30: #191d22;
-    --dark-darker-40: #191d22;
+    --dark-darker-40: #171a1f;
 }
 
 body {
@@ -24,7 +24,7 @@ body {
 /* -------------------------------------------------------- */
 
 header {
-    background-color: var(--dark-darker-40);
+    background-color: var(--dark-darker-30);
 }
 
 header h1 {
@@ -88,6 +88,11 @@ header span:hover {
 /* -------------------------------------------------------- */
 /* Rendered Content Card Styling Start */
 /* -------------------------------------------------------- */
+.card:hover {
+    cursor: pointer;
+    box-shadow: 7px 10px 10px #111418;
+    transform: scale(1.01);
+}
 .horz-cont {
     display: flex;
     flex-wrap: nowrap;
@@ -127,6 +132,72 @@ header span:hover {
 }
 /* //////////////////////////////////////////////////////// */
 
+/* -------------------------------------------------------- */
+/* Button Styling Start */
+/* -------------------------------------------------------- */
+.btn-primary {
+    background-color: var(--fifth);
+    color: black;
+    border-color:#50b667;
+}
+.btn-primary:hover {
+    background-color: #4ee455;
+    color: black;
+    border-color:#327241;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    background-color: #4ee455;
+    color: black;
+    border-color:#327241;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(50, 114, 65,.5);
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    box-shadow: 0 0 0 .2rem rgba(50, 114, 65,.5);
+}
+
+.list-group-item {
+    background-color: var(--primary-dark);
+    color: var(--dark-light-40);
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-item:hover {
+    cursor:pointer;
+}
+
+.list-group-item-action:focus, .list-group-item-action:hover {
+    color: #f8f9fa;
+    text-decoration: none;
+    background-color: var(--dark-light-10);
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: black;
+    background-color: var(--fifth);
+    border-color: #327241;
+}
+
+/* -------------------------------------------------------- */
+/* Search Bar Styling Start */
+/* -------------------------------------------------------- */
+.form-control {
+    background-color: var(--primary-dark);
+    border-color: var(--dark-light-10) 
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: var(--primary-dark);
+    border-color: var(--dark-light-10);
+    outline: 0;
+    box-shadow: 0 0 0 .2rem var(--dark-darker-10);
+}
 
 /* -------------------------------------------------------- */
 /* Media Queries Start */

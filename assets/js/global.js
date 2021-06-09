@@ -321,13 +321,23 @@ var renderModal = function(response, type) {
         var budgetHeader = $("<h6></h6>");
             budgetHeader.text("Budget:");
         var budgetDateTxt = $("<p></p>");
-            budgetDateTxt.text("$" + numberWithCommas(response.budget));
+        if (response.budget === 0) {
+            var budgetVal = " N/A"
+        } else {
+            var budgetVal = "$" + numberWithCommas(response.budget)
+        }
+        budgetDateTxt.text(budgetVal);
 
         // Movie Revenue Information
         var revenueHeader = $("<h6></h6>");
             revenueHeader.text("Revenue:");
         var revenueTxt = $("<p></p>");
-            revenueTxt.text("$" + numberWithCommas(response.revenue));
+        if (response.revenue === 0) {
+            var revenueVal = " N/A"
+        } else {
+            var revenueVal = "$" + numberWithCommas(response.revenue)
+        }
+            revenueTxt.text(revenueVal);
 
         // Append Elements to DOM
         modalContentAside.append(contentImg, ratingHeader,ratingTxt);

@@ -34,6 +34,7 @@ var modalSecCenLeft = $("#modal-middle-left");
 var modalSecCenRight = $("#modal-middle-right");
 var modalSectionBottom = $("#modal-section-bottom");
 
+
 // --------------------------------------------------------------------------------------
 // Get Configuration Api, save to localStorage
 // --------------------------------------------------------------------------------------
@@ -226,6 +227,7 @@ $(".content-cont").on("click", function(event){
     cardApiCall(clickedType, clickedId);
 })
 
+// Query for Api dependant on content type
 var cardApiCall = function (type, id) {
     if (type === "movie" || type === "in-theaters") {
         fetch (
@@ -267,6 +269,7 @@ var cardApiCall = function (type, id) {
     }
 }
 
+// Render the Content Query to the Modal
 var renderModal = function(response, type) {
     // Specific attributes and styling for MOVIES
     if(type === "movie" || type === "in-theaters") {

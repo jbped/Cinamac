@@ -110,7 +110,7 @@ var renderMasterShort = function(response, contentContainer) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
-            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
@@ -167,7 +167,7 @@ var renderMasterLong = function(response, contentContainer){
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
-            genCard.attr("content-type",response.results[i].media_type);
+            genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
             postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
@@ -214,6 +214,7 @@ $(".content-cont").on("click", function(event){
     var clickedItem = event.target.localName
     var cardDiv = event.target.classList[0]
     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
+        $("#contentModal").modal("show")
         if(clickedItem === "h5") {
             var clickedType = event.target.parentNode.parentNode.attributes[2].nodeValue;
             var clickedId = event.target.parentNode.parentNode.attributes[3].nodeValue;
@@ -222,16 +223,56 @@ $(".content-cont").on("click", function(event){
             var clickedId = event.target.parentNode.attributes[3].nodeValue;
         }
         console.log("Type: ", clickedType, "ID: ", clickedId);
-
+        
     }
-    cardModal(clickedType, clickedId);
+    // cardModal();
+    cardApiCall(clickedType, clickedId);
 })
 
-var cardModal = function (type, id) {
-    console.log("A modal will be here!")
+var cardApiCall = function (type, id) {
+    if (type === "movie" || type === "in-theaters") {
+        fetch (
+            tmdbUrl + "movie/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response);
+        })
+    } else if (type === "tv") {
+        fetch (
+            tmdbUrl + "tv/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response);
+        })
+    }
+    else if (type === "person") {
+        fetch (
+            tmdbUrl + "person/" + id + "?" + tmdbKey
+        )
+        .then (function(response){
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then (function(response){
+            renderModal(response);
+        })
+    }
 }
 
-
+var renderModal = function(response) {
+    console.log(response);
+}
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------

@@ -24,10 +24,12 @@ header {
 
 header h1 {
     color: var(--fifth);
+    font-family: 'Bungee', cursive;
 }
 
 header h1 a {
     color: var(--fifth);
+    font-family: 'Bungee', cursive;
 }
 
 header span {
@@ -55,7 +57,8 @@ body {
 
 .header-bg h2 {
     border-bottom: solid 3px var(--fifth);
-    color: var(--primary)
+    color: var(--primary);
+    font-family: 'Bungee', cursive;
 }
 
 .horz-cont {

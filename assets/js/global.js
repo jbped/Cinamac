@@ -24,25 +24,9 @@ var popTVCont = $("#tv-content-cont");
 var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
 
-// GEOLOCATION ------ START
-var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}
-
-function success(pos) {
-    var crd = pos.coords;
-    var lat = crd.latitude;
-    var lon = crd.longitude;
-
-    console.log(`Your current position is`);
-    console.log(`Latitude: ${lat}`);
-    console.log(`Longitude: ${lon}`);
-}
-function error(err)
-{
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-}
-
-navigator.geolocation.getCurrentPosition(success, error, options);
-
+// --------------------------------------------------------------------------------------
+// Get Configuration Api, save to localStorage
+// --------------------------------------------------------------------------------------
 // Load or call TMDB Configuration Api
 var configurationApi = function() {
     configJson = JSON.parse(localStorage.getItem("configJson"));
@@ -87,11 +71,14 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
 
+// --------------------------------------------------------------------------------------
+// Global Card Rendering Functions
+// --------------------------------------------------------------------------------------
 // Render movie cards from api calls. This function limits the list to 10
 var renderMasterShort = function(response, contentContainer) {
     for (var i = 0; i < 10; i++){
         var genCard = $("<div></div>");
-            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 w-25");
+            genCard.addClass("card bg-dark text-light film-card mx-3 my-2 cus-card-width");
             genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         genCard.append(postImg);
@@ -147,7 +134,7 @@ var renderMasterShort = function(response, contentContainer) {
 var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
-        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25");
+        genCard.addClass("card bg-dark text-light mx-3 my-2 w-25 cus-card-width");
         genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
@@ -199,17 +186,11 @@ var renderMasterLong = function(response, contentContainer){
     }
 }
 
-// Load More Button Logic - Changes Button state and text dependant on api available pages
-var checkPages = function (response, pageCount) {
-    if (pageCount === response.total_pages) {
-        loadMoreBtn.attr("disabled", true);
-        loadMoreBtn.text("End of the Line Bucko! No more results are available.")
-    } else {
-        loadMoreBtn.removeAttr("disabled");
-        loadMoreBtn.text("Load More Results");
-    }
-}
 
+// --------------------------------------------------------------------------------------
+// Content Modal Logic --- 1. Click Content Card Event Listener 2. Api Query 3. Render Content Modal
+// --------------------------------------------------------------------------------------
+// On click event for content cards --- starts modal creation process for selected card
 $(".content-cont").on("click", function(event){
     var clickedItem = event.target.localName
     var cardDiv = event.target.classList[0]
@@ -240,7 +221,7 @@ var cardApiCall = function (type, id) {
             }
         })
         .then (function(response){
-            renderModal(response);
+            renderModal(response, type);
         })
     } else if (type === "tv") {
         fetch (
@@ -252,7 +233,7 @@ var cardApiCall = function (type, id) {
             }
         })
         .then (function(response){
-            renderModal(response);
+            renderModal(response, type);
         })
     }
     else if (type === "person") {
@@ -265,13 +246,139 @@ var cardApiCall = function (type, id) {
             }
         })
         .then (function(response){
-            renderModal(response);
+            renderModal(response, type);
         })
     }
 }
 
-var renderModal = function(response) {
+var renderModal = function(response, type) {
     console.log(response);
+    var modalContentDiv = $("#contentModal");
+    var modalContentTitle = $(".modal-title");
+    var modalContentImg = $("#modal-content-img"); 
+    var modalContentAside = $("#content-modal-aside")
+    var modalContentSection = $("#content-modal-section")
+    var modalSectionTop = $("#modal-section-top");
+    var modalSectionCenter = $("#modal-section-middle");
+    var modalSecCenLeft = $("#modal-middle-left");
+    var modalSecCenRight = $("#modal-middle-right");
+    var modalSectionBottom = $("#modal-section-bottom");
+    // Reset Modal
+    modalContentImg.attr("src", "")
+    modalSectionTop.html("");
+    modalSecCenLeft.html("");
+    modalSecCenRight.html("");
+    modalSectionBottom.html("");
+
+    // Specific attributes and styling for MOVIES
+    if(type === "movie" || type === "in-theaters") {
+        modalContentTitle.text(response.title);
+        modalContentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+        modalContentImg.addClass("w-100");
+        var descriptionHeader = $("<h6></h6>");
+            descriptionHeader.text("Description:");
+        var descriptionText = $("<p></p>");
+            descriptionText.text(response.overview);
+        var releaseDateHeader = $("<h6></h6>");
+            releaseDateHeader.text("Release Date:");
+        var releaseDateTxt = $("<p></p>");
+            releaseDateTxt.text(formatDate(response.release_date));
+        var runtimeHeader = $("<h6></h6>");
+            runtimeHeader.text("Runtime:");
+        var runtimeTxt = $("<p></p>");
+            runtimeTxt.text(response.runtime + " mins");
+        var budgetHeader = $("<h6></h6>");
+            budgetHeader.text("Budget:");
+        var budgetDateTxt = $("<p></p>");
+            budgetDateTxt.text("$" + numberWithCommas(response.budget));
+        var revenueHeader = $("<h6></h6>");
+            revenueHeader.text("Revenue:");
+        var revenueTxt = $("<p></p>");
+            revenueTxt.text("$" + numberWithCommas(response.revenue));
+            
+        modalSectionTop.append(descriptionHeader, descriptionText);
+        modalSecCenLeft.append(releaseDateHeader, releaseDateTxt, runtimeHeader, runtimeTxt);
+        modalSecCenRight.append(budgetHeader, budgetDateTxt, revenueHeader, revenueTxt);
+    }
+    if(type === "tv") {
+        modalContentTitle.text(response.name);
+        modalContentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+        modalContentImg.addClass("w-100");
+        var descriptionHeader = $("<h6></h6>");
+            descriptionHeader.text("Description:");
+        var descriptionText = $("<p></p>");
+            descriptionText.text(response.overview);
+        var producerHeader = $("<h6></h6>");
+            producerHeader.text("Network:");
+        var producerTxt = $("<p></p>");
+            producerTxt.text(response.networks[(response.networks.length - 1)].name);
+        var firstAiredHeader = $("<h6></h6>");
+            firstAiredHeader.text("First Aired:");
+        var firstAiredTxt = $("<p></p>");
+            firstAiredTxt.text(formatDate(response.first_air_date));
+        var mostRecentEpHeader = $("<h6></h6>");
+            mostRecentEpHeader.text("Last Aired Episode:");
+        var mostRecentEpTxt = $("<p></p>");
+            mostRecentEpTxt.text(response.last_episode_to_air.name + " - " + formatDate(response.last_air_date));
+        var onGoingHeader = $("<h6></h6>");
+            onGoingHeader.text("Series On-Going?");
+        var onGoingTxt = $("<p></p>");
+        if(response.in_production){
+            var seriesStatus = "Yes"
+        } else {
+            var seriesStatus = "No"
+        }
+            onGoingTxt.text(seriesStatus);
+        var seasonsHeader = $("<h6></h6>");
+            seasonsHeader.text("Seasons:");
+        if (response.number_of_seasons > 1) {
+            var seasonCnt = " seasons"
+        } else {
+            var seasonCnt = " season"
+        }
+        var seasonsTxt = $("<p></p>");
+            seasonsTxt.text(response.number_of_seasons + seasonCnt);
+        var episodesHeader = $("<h6></h6>");
+            episodesHeader.text("Episodes:");
+        if (response.number_of_episodes > 1) {
+            var episodeCnt = " episodes"
+        } else {
+            var episodeCnt = " episode"
+        }
+        var episodesTxt = $("<p></p>");
+            episodesTxt.text(response.number_of_episodes + episodeCnt);
+
+        modalSectionTop.append(descriptionHeader, descriptionText); 
+        modalSecCenLeft.append(producerHeader, producerTxt, firstAiredHeader, firstAiredTxt, mostRecentEpHeader, mostRecentEpTxt);   
+        modalSecCenRight.append(onGoingHeader, onGoingTxt, seasonsHeader, seasonsTxt, episodesHeader, episodesTxt);
+    }
+}
+
+// --------------------------------------------------------------------------------------
+// Uncategorized Functions
+// --------------------------------------------------------------------------------------
+// Load More Button Logic - Changes Button state and text dependant on api available pages
+var checkPages = function (response, pageCount) {
+    if (pageCount === response.total_pages) {
+        loadMoreBtn.attr("disabled", true);
+        loadMoreBtn.text("End of the Line Bucko! No more results are available.")
+    } else {
+        loadMoreBtn.removeAttr("disabled");
+        loadMoreBtn.text("Load More Results");
+    }
+}
+
+// Converts Integers to comma separated strings
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function formatDate(inputDate) {
+    var date = new Date(inputDate);
+    if (!isNaN(date.getTime())) {
+        // Months use 0 index.
+        return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+    }
 }
 // --------------------------------------------------------------------------------------
 // Function Calls on Load

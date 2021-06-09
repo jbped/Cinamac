@@ -210,24 +210,24 @@ var checkPages = function (response, pageCount) {
     }
 }
 
-$(".content-cont").on("click", function(event){
-    var clickedItem = event.target.localName
-    var cardDiv = event.target.classList[0]
-    if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
-        if(cardDiv) {
+// $(".content-cont").on("click", function(event){
+//     var clickedItem = event.target.localName
+//     var cardDiv = event.target.classList[0]
+//     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {
+//         if(cardDiv) {
 
-        } else {
-            var clickedType = event.target.parentNode.attributes[2].nodeValue;
-            var clickedId = target.parentNode.attributes[3].nodeValue;
-        }
-        console.log(event)
-    }
-    cardModal(clickedType, clickedId);
-})
+//         } else {
+//             var clickedType = event.target.parentNode.attributes[2].nodeValue;
+//             var clickedId = target.parentNode.attributes[3].nodeValue;
+//         }
+//         console.log(event)
+//     }
+//     cardModal(clickedType, clickedId);
+// })
 
-var cardModal = function (type, id) {
-    console.log("A modal will be here!")
-}
+// var cardModal = function (type, id) {
+//     console.log("A modal will be here!")
+// }
 
 
 // --------------------------------------------------------------------------------------

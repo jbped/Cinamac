@@ -13,18 +13,16 @@
 
 <body>
     <header>
-        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
-    
-            <h1 class="pr-5"><a href="./index.html">Cinamac!</a></h1>
+        <nav class="container-fluid navbar navbar-expand-lg navbar-dark primary-color">
+
+            <h1 class="pr-5 header-title"><a href="./index.html">Cinamac!</a></h1>
     
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-    
             <div class="collapse navbar-collapse" id="basicExampleNav">
-    
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="./trending.html">Trending</a>
@@ -39,11 +37,10 @@
                         <a class="nav-link" href="./people.html">People</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./popular-tv.html">Popular Tv Shows</a>
+                        <a class="nav-link" href="./popular-tv.html">Popular TV Shows</a>
                     </li>
                 </ul>
-    
-                <form class="form-inline flex-nowrap" id="basic-search">
+                <form class="form-inline flex-nowrap col-xl-6 col-md-4" id="basic-search">
                     <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
                         id="basic-search-input" spellcheck="true">
                     <button class="btn btn-primary" id="basic-search-btn">Search</button>
@@ -110,12 +107,12 @@
                 </div>
                 <button type="button" id="options-btn" class="btn btn-primary btn-block mt-4" onclick=trendSettings();>Filter Trending</button>
             </aside>
-            <div class="row col-lg-9">
+            <div class="row col-lg-9 px-0 mx-0">
                 <div class="container-fluid">
                     <div class="row">
-                        <h2 id="page-title" class="col-12 text-light"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
+                        <h2 id="page-title" class="col-12 page-header px-0 mt-3"><span id=trend-window-title></span> Trending <span id="trend-media-title"></span></h2>
                     </div>
-                    <div class="row content-cont" id="trending-content-cont">
+                    <div class="row content-cont justify-space-around" id="trending-content-cont">
                         <!-- DOM Inserted Elements Here -->
                     </div>
                 </div>

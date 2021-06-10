@@ -28,8 +28,8 @@ body {
 
 header {
     background-color: var(--dark-darker-40);
-    /* position: sticky; */
-    z-index: 5;
+    position: sticky;
+    z-index: 1040;
     top: 0;
 }
 

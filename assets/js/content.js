@@ -2,6 +2,9 @@ var contentType = $("main").attr("content-pg");
 var contentCont = $("#content-cont");
 console.log(contentType)
 
+var theatersNearby = $("#theaters-container");
+var theaterList = $("#theater-list");
+
 // Default page for api pagination
 var apiCallPage = 1;
 
@@ -55,6 +58,25 @@ $("#load-more").on("click", function(event) {
     apiCallPage++;
     fetchApi();
 })
-
+// API Fetch from Bing to search for query of theaters
+fetch(
+    'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=theaters&userLocation=&key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh'
+)
+    // Convert the response to JSON
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (response) {
+        // console.log(response.resourceSets[0].resources);
+        var theaters = response.resourceSets[0].resources;
+        theaters.map(function (theater) {
+            // console.log(theater.name)
+            var theaterName = theater.name;
+            var theaterAddress = theater.Address.formattedAddress;
+            // console.log(theater.Address.formattedAddress);
+            $(`<li><div>${theaterName}</div><div>${theaterAddress}</div></li>`).appendTo(theaterList);
+            // created a list inside theaters nearby button with bing api call 
+        })
+    });
 // Function Calls on load
 fetchApi();

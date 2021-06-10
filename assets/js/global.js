@@ -52,6 +52,7 @@ var configurationApi = function() {
             }
         })
         .then (function(response){
+            configJson = response;
             saveConfig(response);
         })
     }

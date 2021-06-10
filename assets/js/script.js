@@ -195,10 +195,8 @@ var renderPopTv = function(response) {
 // --------------------------------------------------------------------------------------
 // Functions Called on Load
 // --------------------------------------------------------------------------------------
-setTimeout(function() {
 trendWindow();
 getShowing();
 getPopPeople();
 getGenres();
 getPopTV();
-}, 500);

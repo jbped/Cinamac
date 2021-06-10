@@ -16,9 +16,9 @@
 }
 
 body {
-    background: var(--dark-darker-20);
+    background: var(--dark-darker-20) no-repeat center center fixed;
     background-image: linear-gradient(0deg, rgba(36, 42, 49, 1) 0%, rgba(25,29,34,1) 100%);
-    background-image: repeating-linear-gradient(none);
+    background-repeat: no-repeat;
     background-size: cover;
 }
 

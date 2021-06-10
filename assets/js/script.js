@@ -1,75 +1,3 @@
-// // TMDB API Information
-// var tmdbUrl = "https://api.themoviedb.org/3/";
-// var tmdbKey = "&api_key=2c8ad8ff8fd528fe53a66ae9ef906e6b";
-// var getTrending = "trending/movie/"
-// var topRated = "movie/top_rated"
-// var popFilms = "movie/popular"
-// var showingFilms = "movie/now_playing"
-// var popPeople = "person/popular"
-// var genreSearch = "genre/movie/list"
-// var multiSearch = "/search/multi?query="
-
-// // movieGlu API Information
-// var gluKey = "api-key=Dm6PtlSwNc4Vjt4WhaSTS1dXGqu9Vu48gz9TqwN0";
-// var gluUrl = "https://api-gate2.movieglu.com/";
-
-// // Global Variables/DOM elements
-// var searchBar = $("#basic-search");
-// var trendContentCont = $("#trending-content-cont");
-// var topRatedCont = $("#rated-content-cont");
-// var popFilmsCont = $("#pop-content-cont");
-// var inTheatersCont = $("#showing-content-cont");
-// var popPeopleCont = $("#pop-people-content-cont");
-// var genreCont = $("#genre-content-cont");
-
-// bing API Information
-var bingKey = "api-key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh";
-
-// Global Variables/DOM elements
-var trendContentCont = $("#trending-content-cont");
-var topRatedCont = $("#rated-content-cont");
-var popFilmsCont = $("#pop-content-cont");
-var inTheatersCont = $("#showing-content-cont")
-var popPeopleCont = $("#pop-people-content-cont")
-var theatersNearby = $("#theaters-container");
-var theaterList = $("#theater-list");
-
-
-
-
-// // Load or call TMDB Configuration Api
-// var configurationApi = function() {
-//     configJson = JSON.parse(localStorage.getItem("configJson"));
-
-//     if (!configJson) {
-//         fetch (
-//             tmdbUrl + "configuration?" + tmdbKey
-//         )
-//         .then (function(response){
-//             if(response.ok) {
-//                 return response.json();
-//             }
-//         })
-//         .then (function(response){
-//             saveConfig(response);
-//         })
-//     }
-// }
-
-// // Save config api call
-// var saveConfig = function(response) {
-//     localStorage.setItem("configJson", JSON.stringify(response));
-// }
-
-// function openNav() {
-//     document.getElementById("mySidenav").style.width = "250px";
-//   }
-  
-//   /* Set the width of the side navigation to 0 */
-//   function closeNav() {
-//     document.getElementById("mySidenav").style.width = "0";
-//   }
-
 // --------------------------------------------------------------------------------------
 // HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD
 // --------------------------------------------------------------------------------------
@@ -267,8 +195,10 @@ var renderPopTv = function(response) {
 // --------------------------------------------------------------------------------------
 // Functions Called on Load
 // --------------------------------------------------------------------------------------
+setTimeout(function() {
 trendWindow();
 getShowing();
 getPopPeople();
 getGenres();
 getPopTV();
+}, 1000);

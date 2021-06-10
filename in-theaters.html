@@ -93,10 +93,32 @@
         <div class="row">
             <div class="col-lg-9 m-lg-auto mx-sm-3">
                 <h2 class="text-light mt-3">In Theaters</h4>
-                <div class="row content-cont" id="content-cont">
-                    <!-- DOM Inserted Elements Here -->
-                </div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#theatersModal">
+                        Theaters Nearby
+                    </button>
+                    <div class="row content-cont" id="content-cont">
+                        <!-- DOM Inserted Elements Here -->
+                       
+                        <div class="modal" id="theatersModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>Theaters Nearby</h2>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body" id="theaters-container">
+        
+                                        <ul id="theater-list"></ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
             </div>
         </div>
         
@@ -114,6 +136,5 @@
         crossorigin="anonymous"></script>
     <script src="./assets/js/global.js"></script>
     <script src="./assets/js/content.js"></script>
-
 </body>
 </html>

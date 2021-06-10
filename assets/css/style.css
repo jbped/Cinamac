@@ -20,6 +20,8 @@ body {
     background-image: linear-gradient(0deg, rgba(36, 42, 49, 1) 0%, rgba(25,29,34,1) 100%);
 }
 
+
+
 /* -------------------------------------------------------- */
 /* Header Styling Start */
 /* -------------------------------------------------------- */
@@ -34,6 +36,7 @@ header {
 header h1 {
     color: var(--fifth);
     font-family: 'Bungee', cursive;
+    margin-bottom: 0;
 }
 
 header h1 a {
@@ -42,16 +45,15 @@ header h1 a {
 }
 
 header span {
-    background-color: var(--third);
+    /* background-color: var(--third); */
     font-size: 35px;
     text-align: center;
     border-radius: .2rem;
 }
 
-
 header span:hover {
     cursor: pointer;
-    background-color: var(--forth);
+    /* background-color: var(--forth); */
 }
 
 .header-bg {
@@ -60,10 +62,16 @@ header span:hover {
     border-radius:.2rem;
 }
 
-.header-bg h2 {
+.header-title a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page-header {
     border-bottom: solid 3px var(--fifth);
     color: var(--primary);
     font-family: 'Bungee', cursive;
+    
 }
 /* //////////////////////////////////////////////////////// */
   
@@ -72,6 +80,15 @@ header span:hover {
 /* -------------------------------------------------------- */
 /* Modal Styling Start */
 /* -------------------------------------------------------- */
+#theater-near-me:hover { 
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#theater-list li {
+    list-style: none;
+}
+
 .modal-header {
     border-color: var(--dark-darker-10);
 }
@@ -113,8 +130,8 @@ header span:hover {
 }
 
 .cus-card-width {
-    /* width: 225px; */
-    width: 25%;
+    width: calc(225px + 3vw);
+    /* width: 25%; */
 }
 
 .film-card{
@@ -173,6 +190,12 @@ header span:hover {
     box-shadow: 0 0 0 .2rem rgba(50, 114, 65,.5);
 }
 
+.btn-primary.disabled, .btn-primary:disabled {
+    color: black;
+    background-color: var(--fifth);
+    border-color: #327241;
+}
+
 .list-group-item {
     background-color: var(--primary-dark);
     color: var(--dark-light-40);
@@ -206,7 +229,7 @@ header span:hover {
 }
 
 .form-control:focus {
-    color: #495057;
+    color: #f8f9fa;
     background-color: var(--primary-dark);
     border-color: var(--dark-light-10);
     outline: 0;
@@ -230,6 +253,10 @@ header span:hover {
         flex: 0 0 40%;
       
      }
+
+    .page-header {
+        text-align: center;
+    }
 }
 @media screen and (max-width:768px) {
     .horz-cont{
@@ -246,4 +273,5 @@ header span:hover {
        padding: 0 15%;
        box-shadow: none;
     }
+    
 }

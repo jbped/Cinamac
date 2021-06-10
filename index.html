@@ -13,18 +13,14 @@
 
 <body>
     <header>
-        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
-
-            <h1 class="pr-5">Cinamac!</h1>
-
+        <nav class="container-fluid navbar navbar-expand-lg navbar-dark primary-color">
+            <h1 class="pr-5 header-title">Cinamac!</h1>
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="basicExampleNav">
-
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="./trending.html">Trending</a>
@@ -39,47 +35,41 @@
                         <a class="nav-link" href="./people.html">People</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./popular-tv.html">Popular Tv Shows</a>
+                        <a class="nav-link" href="./popular-tv.html">Popular TV Shows</a>
                     </li>
                 </ul>
-
-                <form class="form-inline flex-nowrap" id="basic-search">
+                <form class="form-inline flex-nowrap col-xl-6 col-md-4" id="basic-search">
                     <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
                         id="basic-search-input" spellcheck="true">
                     <button class="btn btn-primary" id="basic-search-btn">Search</button>
                 </form>
             </div>
         </nav>
-
-        <div class="container">
-            <div class="float-right mt-1">
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#theatersModal">
-                    Theaters Nearby
-                </button>
-            </div>
-        </div>
+        
+        <!-- IN THEATERS MODAL -->
         <div class="modal" id="theatersModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-light border-dark">
                     <div class="modal-header">
-                        <h2>Theaters Nearby</h2>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Theaters Nearby</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="modal-close">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body" id="theaters-container">
                       
                         <ul id="theater-list"></ul>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        
     </header>
 
-    <main class="container">
+    <main class="container-fluid px-5">
+        <!-- CONTENT CARD MODAL -->
         <div class="modal" tabindex="-1" role="dialog" id="contentModal">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content bg-dark text-light border-dark">
@@ -117,15 +107,24 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="my-2 mb-0 ml-auto">
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theatersModal" >
+                    Theaters Nearby
+                </button>
+            </div>
+        </div>
+        
         <!-- TRENDING FILMS SECTION -->
-        <section class="row my-5">
-            <div id="trend-header" class="d-flex col-12 header-bg">
-                <h2 id="trending-title" class="pl-0">Trending Films</h2>
+        <section class="row mb-5">
+            <div id="trend-header" class="row col-12 header-bg">
+                <h2 id="trending-title" class="pl-0 page-header mr-sm-auto">Trending Films</h2>
                 <div id="trend-window" class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
-                    <label class="btn btn-secondary active" trend-id="day">
+                    <label class="btn btn-secondary button-sizing active" trend-id="day">
                         <input type="radio" name="options" id="daily-trend" autocomplete="off" checked>Daily
                     </label>
-                    <label class="btn btn-secondary" trend-id="week">
+                    <label class="btn btn-secondary button-sizing" trend-id="week">
                         <input type="radio" name="options" id="monthly-trend" autocomplete="off">Weekly
                     </label>
                 </div>
@@ -141,7 +140,7 @@
         <!-- IN THEATERS SECTION -->
         <section class="row my-5">
             <div id="showing-header" class="d-flex col-12 header-bg">
-                <h2 id="showing-title" class="pl-0">In Theaters</h2>
+                <h2 id="showing-title" class="pl-0 page-header">In Theaters</h2>
             </div>
             <div id="showing-cont" class="horz-cont col-12">
                 <div id="showing-content-cont" class="content-cont horz-cont py-3">
@@ -154,7 +153,7 @@
         <!-- POPULAR PEOPLE SECTION -->
         <section class="row my-5">
             <div id="pop-people-header" class="d-flex col-12 header-bg">
-                <h2 id="pop-people-title" class="pl-0">People</h2>
+                <h2 id="pop-people-title" class="pl-0 page-header">People</h2>
             </div>
             <div id="pop-people-cont" class="horz-cont col-12">
                 <div id="pop-people-content-cont" class="content-cont horz-cont py-3">
@@ -167,10 +166,10 @@
         <!-- GENRES SECTION -->
         <section class="row my-5">
             <div id="genre-header" class="d-flex col-12 header-bg">
-                <h2 id="genre-title" class="pl-0">Genres</h2>
+                <h2 id="genre-title" class="pl-0 page-header">Genres</h2>
             </div>
-            <div id="genre-cont" class="horz-cont col-12">
-                <div id="genre-content-cont" class="content-cont horz-cont py-3">
+            <div id="genre-cont" class="horz-cont col-12 ">
+                <div id="genre-content-cont" class="content-cont horz-cont py-3 w-100">
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
@@ -179,7 +178,7 @@
         <!-- POPULAR TV SHOWS SECTION -->
         <section class="row my-5">
             <div id="tv-header" class="d-flex col-12 header-bg">
-                <h2 id="pop-title" class="pl-0">Popular TV Shows</h2>
+                <h2 id="pop-title" class="pl-0 page-header">Popular TV Shows</h2>
             </div>
             <div id="tv-cont" class="horz-cont col-12">
                 <div id="tv-content-cont" class="content-cont horz-cont py-3">

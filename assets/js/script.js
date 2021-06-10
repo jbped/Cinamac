@@ -201,4 +201,4 @@ getShowing();
 getPopPeople();
 getGenres();
 getPopTV();
-}, 1000);
+}, 500);

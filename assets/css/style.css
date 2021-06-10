@@ -25,7 +25,7 @@ body {
 /* -------------------------------------------------------- */
 
 header {
-    background-color: var(--dark-darker-30);
+    background-color: var(--dark-darker-40);
     /* position: sticky; */
     z-index: 5;
     top: 0;

@@ -74,6 +74,9 @@ header span:hover {
     font-family: 'Bungee', cursive;
     
 }
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--primary);
+}
 /* //////////////////////////////////////////////////////// */
   
 

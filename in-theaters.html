@@ -13,18 +13,16 @@
 
 <body>
     <header>
-        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
-    
-            <h1 class="pr-5"><a href="./index.html">Cinamac!</a></h1>
+        <nav class="container-fluid navbar navbar-expand-lg navbar-dark primary-color">
+
+            <h1 class="pr-5 header-title"><a href="./index.html">Cinamac!</a></h1>
     
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-    
             <div class="collapse navbar-collapse" id="basicExampleNav">
-    
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="./trending.html">Trending</a>
@@ -39,17 +37,36 @@
                         <a class="nav-link" href="./people.html">People</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./popular-tv.html">Popular Tv Shows</a>
+                        <a class="nav-link" href="./popular-tv.html">Popular TV Shows</a>
                     </li>
                 </ul>
-    
-                <form class="form-inline flex-nowrap" id="basic-search">
+                <form class="form-inline flex-nowrap col-xl-6 col-md-4" id="basic-search">
                     <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
                         id="basic-search-input" spellcheck="true">
                     <button class="btn btn-primary" id="basic-search-btn">Search</button>
                 </form>
             </div>
         </nav>
+        <!-- IN THEATERS MODAL -->
+        <div class="modal" id="theatersModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-light border-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Theaters Nearby</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="modal-close">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="theaters-container">
+                      
+                        <ul id="theater-list"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="container-fluid" content-pg="in-theaters">
@@ -92,33 +109,12 @@
         </div>
         <div class="row">
             <div class="col-lg-9 m-lg-auto mx-sm-3">
-                <h2 class="text-light mt-3">In Theaters</h4>
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#theatersModal">
-                        Theaters Nearby
-                    </button>
-                    <div class="row content-cont" id="content-cont">
-                        <!-- DOM Inserted Elements Here -->
-                       
-                        <div class="modal" id="theatersModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2>Theaters Nearby</h2>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body" id="theaters-container">
-        
-                                        <ul id="theater-list"></ul>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-        
-                    </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+                <h2 class="page-header mt-3">In Theaters</h2>
+                <h5 class="text-light" id="theater-near-me">Find a Theater Near Me</h5>
+                <div class="row content-cont" id="content-cont">
+                    <!-- DOM Inserted Elements Here -->
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
             </div>
         </div>
         

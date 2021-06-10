@@ -10,9 +10,8 @@ var genreSearch = "genre/movie/list"
 var popTvShows = "tv/popular"
 var multiSearch = "search/multi?query="
 
-// movieGlu API Information
-var gluKey = "api-key=Dm6PtlSwNc4Vjt4WhaSTS1dXGqu9Vu48gz9TqwN0";
-var gluUrl = "https://api-gate2.movieglu.com/";
+// bing API Information
+var bingKey = "api-key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh";
 
 // Global Variables/DOM elements
 var searchBar = $("#basic-search");
@@ -23,6 +22,8 @@ var genreCont = $("#genre-content-cont");
 var popTVCont = $("#tv-content-cont");
 var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
+var theatersNearby = $("#theaters-container");
+var theaterList = $("#theater-list");
 // Content Modal Elements
 var modalContentDiv = $("#contentModal");
 var modalContentTitle = $(".modal-title"); 
@@ -33,7 +34,6 @@ var modalSectionCenter = $("#modal-section-middle");
 var modalSecCenLeft = $("#modal-middle-left");
 var modalSecCenRight = $("#modal-middle-right");
 var modalSectionBottom = $("#modal-section-bottom");
-
 
 // --------------------------------------------------------------------------------------
 // Get Configuration Api, save to localStorage
@@ -61,6 +61,31 @@ var configurationApi = function() {
 var saveConfig = function(response) {
     localStorage.setItem("configJson", JSON.stringify(response));
 }
+
+fetch(
+    'https://dev.virtualearth.net/REST/v1/LocalSearch/?query=theaters&userLocation=&key=Ai1mA8cMmJaHgOtb3KtZ66UcmJ_pr5LQjw50dKUeeDlDI4q0nE0rJKrrAdMzBAYh'
+)
+    // Convert the response to JSON
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (response) {
+        // console.log(response.resourceSets[0].resources);
+        var theaters = response.resourceSets[0].resources;
+        theaters.map(function (theater) {
+            // console.log(theater.name)
+            var theaterName = theater.name;
+            var theaterAddress = theater.Address.formattedAddress;
+            // console.log(theater.Address.formattedAddress);
+            $(`<li class="my-2"><h6>${theaterName}</h6><div class="ml-4">${theaterAddress}</div></li>`).appendTo(theaterList);
+            // created a list inside theaters nearby button with bing api call 
+        })
+    });
+
+var theatersNearApi = function(){
+    theaterList.html("")
+}
+
 
 // --------------------------------------------------------------------------------------
 // Search Bar Logic
@@ -145,7 +170,7 @@ var renderMasterShort = function(response, contentContainer) {
 var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
-        genCard.addClass("card bg-dark text-light mx-3 w-25 my-3 cus-card-width");
+        genCard.addClass("card bg-dark text-light mx-auto my-3 cus-card-width");
         genCard.attr("id","gen-card-i");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
@@ -514,10 +539,16 @@ function formatDate(inputDate) {
         return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
     }
 }
+
+$("#theater-near-me").on("click", function(){
+    // theatersNearApi();
+    $("#theatersModal").modal("show");
+})
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------
 configurationApi();
+
 
 // --------------------------------------------------------------------------------------
 // Variables dependant on configurationApi

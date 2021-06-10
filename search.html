@@ -11,33 +11,33 @@
 </head>
 <body>
     <header>
-        <nav class=" container navbar navbar-expand-lg navbar-dark primary-color">
-    
-            <h1 class="pr-5"><a href="./index.html">Cinamac!</a></h1>
+        <nav class="container-fluid navbar navbar-expand-lg navbar-dark primary-color">
+
+            <h1 class="pr-5 header-title"><a href="./index.html">Cinamac!</a></h1>
     
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-    
             <div class="collapse navbar-collapse" id="basicExampleNav">
-    
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#trend-title">Trending</a>
+                        <a class="nav-link" href="./trending.html">Trending</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="##genre-title">Genres</a>
+                        <a class="nav-link" href="./in-theaters.html">In Theaters</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#people-title">People</a>
+                        <a class="nav-link" href="./genres.html">Genres</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#discover-title">Discover</a>
+                        <a class="nav-link" href="./people.html">People</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./popular-tv.html">Popular TV Shows</a>
                     </li>
                 </ul>
-    
                 <form class="form-inline flex-nowrap" id="basic-search">
                     <input class="form-control mr-1 w-100" type="text" placeholder="Search Movie" name="search"
                         id="basic-search-input" spellcheck="true">
@@ -47,7 +47,7 @@
         </nav>
     </header>
 
-    <main class="container text-light">
+    <main class="container-fluid text-light">
         <div class="modal" tabindex="-1" role="dialog" id="contentModal">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content bg-dark text-light border-dark">
@@ -85,14 +85,16 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <h2 id="page-title" class="col-12 p-0">Search Results</h2>
-            <h4>Searched: <em><span id="search-query"></span></em></h4>
+        <div class="row col-lg-9 m-lg-auto">
+            <h2 id="page-title" class="col-12 mx-sm-3 p-0 page-header mt-3">Search Results</h2>
+            <h4 class="px-3">Searched: <em><span id="search-query"></span></em></h4>
         </div>
-        <div class="row content-cont" id="search-content-cont">
+        <div class="row content-cont col-lg-9 m-lg-auto mx-sm-3" id="search-content-cont">
             <!-- DOM Inserted Elements Here -->
         </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+        <div class="row col-lg-9 m-lg-auto">
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+        </div>
     </main>
     
     <script src="https://code.jquery.com/jquery-3.6.0.js"

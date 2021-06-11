@@ -34,6 +34,14 @@ var modalSectionCenter = $("#modal-section-middle");
 var modalSecCenLeft = $("#modal-middle-left");
 var modalSecCenRight = $("#modal-middle-right");
 var modalSectionBottom = $("#modal-section-bottom");
+var configJson = {};
+var imgUrl = "";
+var postSizCust = "w220_and_h330_face"
+var postSize185 = "";
+var postSize342 = "";
+var postSize500 = "";
+var profilePicSiz = "w235_and_h235_face";
+
 
 // --------------------------------------------------------------------------------------
 // Get Configuration Api, save to localStorage
@@ -53,8 +61,30 @@ var configurationApi = function() {
         })
         .then (function(response){
             configJson = response;
+            // console.log(configJson);
+            imgUrl = configJson.images.base_url;
+            postSize185 = configJson.images.poster_sizes[2];
+            postSize342 = configJson.images.poster_sizes[3];
+            postSize500 = configJson.images.poster_sizes[4];
             saveConfig(response);
+            trendWindow();
+            getShowing();
+            getPopPeople();
+            getGenres();
+            getPopTV();
         })
+    }
+    else {
+        // configJson = response;
+        imgUrl = configJson.images.base_url;
+        postSize185 = configJson.images.poster_sizes[2];
+        postSize342 = configJson.images.poster_sizes[3];
+        postSize500 = configJson.images.poster_sizes[4];
+        trendWindow();
+        getShowing();
+        getPopPeople();
+        getGenres();
+        getPopTV();
     }
 }
 
@@ -554,9 +584,9 @@ configurationApi();
 // --------------------------------------------------------------------------------------
 // Variables dependant on configurationApi
 // --------------------------------------------------------------------------------------
-var imgUrl = configJson.images.base_url;
-var postSizCust = "w220_and_h330_face"
-var postSize185 = configJson.images.poster_sizes[2];
-var postSize342 = configJson.images.poster_sizes[3];
-var postSize500 = configJson.images.poster_sizes[4];
-var profilePicSiz = "w235_and_h235_face"
+// var imgUrl = configJson.images.base_url;
+// var postSizCust = "w220_and_h330_face"
+// var postSize185 = configJson.images.poster_sizes[2];
+// var postSize342 = configJson.images.poster_sizes[3];
+// var postSize500 = configJson.images.poster_sizes[4];
+// var profilePicSiz = "w235_and_h235_face";

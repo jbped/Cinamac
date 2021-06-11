@@ -18,11 +18,19 @@ var fetchApi = function() {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail";
+                errorModal(errorType);
+            }
         }) 
         .then(function(response){
             checkPages(response, apiCallPage);
             renderMasterLong(response, contentCont);
         })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
+        });
     } else if (contentType === "people") {
         fetch(
             tmdbUrl + popPeople + "?region=US&adult=false&language=en-US&page=" + apiCallPage + tmdbKey
@@ -31,11 +39,19 @@ var fetchApi = function() {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail";
+                errorModal(errorType);
+            }
         }) 
         .then(function(response){
             checkPages(response, apiCallPage);
             renderMasterLong(response, contentCont);
         })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
+        });
     } else if (contentType === "popular-tv") {
         fetch(
             tmdbUrl + popTvShows + "?region=US&language=en-US&page=" + apiCallPage + tmdbKey
@@ -44,11 +60,19 @@ var fetchApi = function() {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail";
+                errorModal(errorType);
+            }
         }) 
         .then(function(response){
             checkPages(response, apiCallPage);
             renderMasterLong(response, contentCont);
         })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
+        });
     }
 }
     

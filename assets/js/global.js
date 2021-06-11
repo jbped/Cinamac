@@ -24,6 +24,7 @@ var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
 var theatersNearby = $("#theaters-container");
 var theaterList = $("#theater-list");
+
 // Content Modal Elements
 var modalContentDiv = $("#contentModal");
 var modalContentTitle = $(".modal-title"); 

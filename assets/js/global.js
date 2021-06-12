@@ -24,8 +24,10 @@ var loadMoreBtn = $("#load-more");
 var cardDiv = $("#gen-card");
 var theatersNearby = $("#theaters-container");
 var theaterList = $("#theater-list");
+
 // Content Modal Elements
 var modalContentDiv = $("#contentModal");
+var modalMainContentDiv = $("#content-modal-main")
 var modalContentTitle = $(".modal-title"); 
 var modalContentAside = $("#content-modal-aside")
 var modalContentSection = $("#content-modal-section")
@@ -34,6 +36,14 @@ var modalSectionCenter = $("#modal-section-middle");
 var modalSecCenLeft = $("#modal-middle-left");
 var modalSecCenRight = $("#modal-middle-right");
 var modalSectionBottom = $("#modal-section-bottom");
+var configJson = {};
+var imgUrl = "";
+var postSizCust = "w220_and_h330_face"
+var postSize185 = "";
+var postSize342 = "";
+var postSize500 = "";
+var profilePicSiz = "w235_and_h235_face";
+
 
 // --------------------------------------------------------------------------------------
 // Get Configuration Api, save to localStorage
@@ -50,11 +60,45 @@ var configurationApi = function() {
             if(response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail";
+                errorModal(errorType);
+            }
         })
         .then (function(response){
             configJson = response;
+            // console.log(configJson);
+            imgUrl = configJson.images.base_url;
+            postSize185 = configJson.images.poster_sizes[2];
+            postSize342 = configJson.images.poster_sizes[3];
+            postSize500 = configJson.images.poster_sizes[4];
             saveConfig(response);
+            if ($("body").is(".homepage")){
+                trendWindow();
+                getShowing();
+                getPopPeople();
+                getGenres();
+                getPopTV();
+            }
         })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
+        });
+    }
+    else {
+        // configJson = response;
+        imgUrl = configJson.images.base_url;
+        postSize185 = configJson.images.poster_sizes[2];
+        postSize342 = configJson.images.poster_sizes[3];
+        postSize500 = configJson.images.poster_sizes[4];
+        if ($("body").is(".homepage")){
+            trendWindow();
+            getShowing();
+            getPopPeople();
+            getGenres();
+            getPopTV();
+        }
     }
 }
 
@@ -68,7 +112,12 @@ fetch(
 )
     // Convert the response to JSON
     .then(function (response) {
-        return response.json();
+        if(response.ok) {
+            return response.json();
+        } else {
+            var errorType = "contentFail";
+            errorModal(errorType);
+        }
     })
     .then(function (response) {
         // console.log(response.resourceSets[0].resources);
@@ -81,6 +130,10 @@ fetch(
             $(`<li class="my-2"><h6>${theaterName}</h6><div class="ml-4">${theaterAddress}</div></li>`).appendTo(theaterList);
             // created a list inside theaters nearby button with bing api call 
         })
+    })
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     });
 
 var theatersNearApi = function(){
@@ -104,9 +157,9 @@ function openNav() {
   }
   
   /* Set the width of the side navigation to 0 */
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-  }
+function closeNav() {
+document.getElementById("mySidenav").style.width = "0";
+}
 
 // --------------------------------------------------------------------------------------
 // Global Card Rendering Functions
@@ -121,40 +174,68 @@ var renderMasterShort = function(response, contentContainer) {
         genCard.append(postImg);
         var cardBody = $("<div></div>");
             cardBody.addClass("card-body");
+        // Specific attributes and styling for MOVIES
         if(response.results[i].media_type === "movie") {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type",response.results[i].media_type);
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
+         // Specific attributes and styling for TV SHOWS
         else if (response.results[i].media_type === "tv" || response.results[i].first_air_date) {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }  
+         // Specific attributes and styling for ACTORS
         else if (response.results[i].gender > -1){
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].name);
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","person");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            if (response.results[i].profile_path === null) {
+                postImg.attr("src","./assets/images/profile-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            }
+            // postImg.attr("onerror", "profImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
             postImg.addClass("card-img-top");
         } 
+         // Specific attributes and styling for In Theaters Films
         else {
             var movTitle = $("<h5></h5>");
             movTitle.text(response.results[i].title);
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","in-theaters");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
         if (i > 3) {
@@ -183,7 +264,13 @@ var renderMasterLong = function(response, contentContainer){
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type",response.results[i].media_type);
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
         // Specific attributes and styling for TV SHOWS
@@ -193,7 +280,13 @@ var renderMasterLong = function(response, contentContainer){
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","tv");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }  
         // Specific attributes and styling for PEOPLE
@@ -203,7 +296,13 @@ var renderMasterLong = function(response, contentContainer){
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","person");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            if (response.results[i].profile_path === null) {
+                postImg.attr("src","./assets/images/profile-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
+            }
+            // postImg.attr("onerror", "profImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].profile_path);
             postImg.addClass("card-img-top");
         } 
         // Specific attributes and styling for NOW SHOWING IN THEATER
@@ -213,7 +312,13 @@ var renderMasterLong = function(response, contentContainer){
             movTitle.addClass("card-title w-100");
             genCard.attr("content-type","in-theaters");
             genCard.attr("content-id",response.results[i].id);
-            postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            if (response.results[i].poster_path === null) {
+                postImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
+            }
+            // postImg.attr("onerror", "movImgErr(this)");
+            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
         cardBody.append(movTitle);
@@ -222,7 +327,6 @@ var renderMasterLong = function(response, contentContainer){
         contentContainer.append(genCard);
     }
 }
-
 
 // --------------------------------------------------------------------------------------
 // Content Modal Logic --- 1. Click Content Card Event Listener 2. Api Query 3. Render Content Modal
@@ -247,6 +351,7 @@ $(".content-cont").on("click", function(event){
     // cardModal();
     modalContentAside.html("")
     modalSectionTop.html("");
+    modalSectionCenter.text("");
     modalSecCenLeft.html("");
     modalSecCenRight.html("");
     modalSectionBottom.html("");
@@ -263,9 +368,17 @@ var cardApiCall = function (type, id) {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail"
+                errorModal(errorType);
+            }
         })
         .then (function(response){
             renderModal(response, type);
+        })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
         })
     } else if (type === "tv") {
         fetch (
@@ -275,9 +388,17 @@ var cardApiCall = function (type, id) {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "contentFail"
+                errorModal(errorType);
+            }
         })
         .then (function(response){
             renderModal(response, type);
+        })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
         })
     }
     else if (type === "person") {
@@ -288,12 +409,38 @@ var cardApiCall = function (type, id) {
             if (response.ok) {
                 return response.json();
             }
+            else {
+                var errorType = "apiFail"
+                errorModal(errorType);;
+            }
         })
         .then (function(response){
             renderModal(response, type);
         })
+        .catch(function(error){
+            var errorType = "apiFail"
+            errorModal(errorType);
+        })        
     }
 }
+
+var errorModal = function(errorType){
+    modalContentAside.html("")
+    modalSectionTop.html("");
+    modalSectionCenter.text("");
+    modalMainContentDiv.text("");
+    modalSecCenLeft.html("");
+    modalSecCenRight.html("");
+    modalSectionBottom.html("");
+    if (errorType === "apiFail") {
+        
+        modalContentTitle.text("Unable to Connect to API");
+        $("<p>Our apologies, unfortunately, we are unable to connect to the appropriate service to get you the information you need. Please try again later!</p>").appendTo(modalMainContentDiv);
+    } else {
+        modalContentTitle.text("No Results Were Found");
+        $("<p>Uh-oh! It appears that we were unable to find the requested information. Please try again later!</p>").appendTo(modalMainContentDiv);
+    }
+};
 
 // Render the Content Query to the Modal
 var renderModal = function(response, type) {
@@ -305,14 +452,18 @@ var renderModal = function(response, type) {
         // Show Movie Poster
         var contentImg = $("<img></img>");
             contentImg.attr("id", "modal-content-img");
-            contentImg.addClass("w-25")
-            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-25");
+            if (response.poster_path === null) {
+                contentImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                contentImg.attr("src", imgUrl + postSizCust + response.poster_path);
+            }
             contentImg.addClass("w-100 mb-2");
 
         // User Review Scores
         var ratingHeader = $("<h6></h6>");
             ratingHeader.text("Viewer Score:");
-            ratingHeader.css("display","inline")
+            ratingHeader.css("display","inline");
         var ratingTxt = $("<p></p>");
         if (response.vote_average === 0) {
             var ratingVal = " N/A"
@@ -379,11 +530,17 @@ var renderModal = function(response, type) {
         // Render TV Show Title
         modalContentTitle.text(response.name);
 
-         // Show Movie Poster
+         // Show TV Poster
         var contentImg = $("<img></img>");
             contentImg.attr("id", "modal-content-img");
-            contentImg.addClass("w-25")
-            contentImg.attr("src", imgUrl + postSizCust + response.poster_path)
+            contentImg.addClass("w-25");
+            if (response.poster_path === null) {
+                contentImg.attr("src","./assets/images/poster-placeholder.png")
+            } else {
+                contentImg.attr("src", imgUrl + postSizCust + response.poster_path);
+            }
+            // contentImg.attr("onerror", "movImgErr(this)");
+            // contentImg.attr("src", imgUrl + postSizCust + response.poster_path);
             contentImg.addClass("w-100 mb-2");
 
          // User Review Scores
@@ -400,7 +557,7 @@ var renderModal = function(response, type) {
             ratingTxt.css("display","inline")
             // Potentially add a color system here
 
-        // Movie Description
+        // TV Show Description
         var descriptionHeader = $("<h6></h6>");
             descriptionHeader.text("Description:");
         var descriptionText = $("<p></p>");
@@ -415,7 +572,11 @@ var renderModal = function(response, type) {
         var producerHeader = $("<h6></h6>");
             producerHeader.text("Network:");
         var producerTxt = $("<p></p>");
+        if (response.networks.length === 0) {
+            producerTxt.text("N/A");
+        } else {
             producerTxt.text(response.networks[(response.networks.length - 1)].name);
+        }
         
         // First Air Date 
         var firstAiredHeader = $("<h6></h6>");
@@ -478,22 +639,31 @@ var renderModal = function(response, type) {
         modalSecCenLeft.append(producerHeader, producerTxt, firstAiredHeader, firstAiredTxt, mostRecentEpHeader, mostRecentEpTxt);   
         modalSecCenRight.append(onGoingHeader, onGoingTxt, seasonsHeader, seasonsTxt, episodesHeader, episodesTxt);
     }
+    // Specific Attributes for Actors
     else if(type === "person") {
         modalContentTitle.text(response.name);
+        // Actor Profile Picture
         var contentImg = $("<img></img>");
             contentImg.attr("id", "modal-content-img");
-            contentImg.addClass("w-25")
-            contentImg.attr("src", imgUrl + postSizCust + response.profile_path)
+            contentImg.addClass("w-25");
+            if (response.profile_path === null) {
+                contentImg.attr("src","./assets/images/profile-placeholder.png")
+            } else {
+                contentImg.attr("src", imgUrl + postSizCust + response.profile_path);
+            }
             contentImg.addClass("w-100 mb-2");
+        // Get birthday
         var birthdayHeader = $("<h6></h6>");
             birthdayHeader.text("Date of Birth:");
         var birthdayTxt = $("<p></p>");
             birthdayTxt.text(formatDate(response.birthday));
+        // Get birthplace
         var birthplaceHeader = $("<h6></h6>");
             birthplaceHeader.text("Place of Birth:");
         var birthplaceTxt = $("<p></p>");
             birthplaceTxt.text(response.place_of_birth);
         modalContentAside.append(contentImg, birthdayHeader, birthdayTxt, birthplaceHeader, birthplaceTxt);
+        // If deceased show death day
         if (response.deathday !== null) {
             var deathdayHeader = $("<h6></h6>");
                 deathdayHeader.text("Date of Death:");
@@ -501,6 +671,7 @@ var renderModal = function(response, type) {
                 deathdayTxt.text(formatDate(response.deathday));
             modalContentAside.append(deathdayHeader,deathdayTxt);
         }
+        // Get bio if available
         var biographyHeader = $("<h6></h6>");
             biographyHeader.text("Biography:");
         var biographyText = $("<p></p>");
@@ -533,6 +704,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+// Change Date to MM/DD/YYYY
 function formatDate(inputDate) {
     var date = new Date(inputDate);
     if (!isNaN(date.getTime())) {
@@ -541,22 +713,13 @@ function formatDate(inputDate) {
     }
 }
 
+// Open Theater Modal on Element w/ ID click
 $("#theater-near-me").on("click", function(){
     // theatersNearApi();
     $("#theatersModal").modal("show");
 })
+
 // --------------------------------------------------------------------------------------
 // Function Calls on Load
 // --------------------------------------------------------------------------------------
 configurationApi();
-
-
-// --------------------------------------------------------------------------------------
-// Variables dependant on configurationApi
-// --------------------------------------------------------------------------------------
-var imgUrl = configJson.images.base_url;
-var postSizCust = "w220_and_h330_face"
-var postSize185 = configJson.images.poster_sizes[2];
-var postSize342 = configJson.images.poster_sizes[3];
-var postSize500 = configJson.images.poster_sizes[4];
-var profilePicSiz = "w235_and_h235_face"

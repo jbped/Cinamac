@@ -41,12 +41,19 @@ var searchFetch = function (search) {
         if (response.ok) {
             return response.json();
         }
+        else {
+            var errorType = "contentFail";
+            errorModal(errorType);
+        }
     })
     .then(function (response) {
         checkPages(response, searchPage);
         renderMasterLong(response, searchCont);
-        console.log(response);
     })
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
+    });
 }
 
 initialSearch();

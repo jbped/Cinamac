@@ -1,3 +1,4 @@
+
 // --------------------------------------------------------------------------------------
 // HOME PAGE API LOGIC FOR DISPLAYING MOVIE INFO ON LOAD
 // --------------------------------------------------------------------------------------
@@ -45,14 +46,16 @@ var getTrend = function(trendVal) {
             return response.json();
         }
         else {
-            alert("Unable to query correct items")
+            var errorType = "contentFail";
+            errorModal(errorType);
         }
     })
     .then (function(response){
         renderTrend(response)
     })
-    .catch (function(error){
-        alert(error);
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     })
 }
 
@@ -66,14 +69,16 @@ var getShowing = function() {
             return response.json();
         }
         else {
-            alert("Unable to query correct items")
+            var errorType = "contentFail";
+            errorModal(errorType);
         }
     })
     .then (function(response){
         renderShowingFilms(response)
     })
-    .catch (function(error){
-        alert(error);
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     })
 }
 
@@ -87,14 +92,16 @@ var getPopPeople = function() {
             return response.json();
         }
         else {
-            alert("Unable to query correct items")
+            var errorType = "contentFail";
+            errorModal(errorType);
         }
     })
     .then (function(response){
         renderPopPeople(response)
     })
-    .catch (function(error){
-        alert(error);
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     })
 }
 
@@ -108,14 +115,16 @@ var getGenres = function() {
             return response.json();
         }
         else {
-            alert("Unable to query correct items")
+            var errorType = "contentFail";
+            errorModal(errorType);
         }
     })
     .then (function(response){
         renderGenre(response)
     })
-    .catch (function(error){
-        alert(error);
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     })
 }
 
@@ -129,14 +138,16 @@ var getPopTV = function() {
             return response.json();
         }
         else {
-            alert("Unable to query correct items")
+            var errorType = "contentFail";
+            errorModal(errorType);
         }
     })
     .then (function(response){
         renderPopTv(response)
     })
-    .catch (function(error){
-        alert(error);
+    .catch(function(error){
+        var errorType = "apiFail"
+        errorModal(errorType);
     })
 }
 
@@ -192,11 +203,20 @@ var renderPopTv = function(response) {
     renderMasterShort(response, popTVCont);
 }
 
-// --------------------------------------------------------------------------------------
-// Functions Called on Load
-// --------------------------------------------------------------------------------------
-trendWindow();
-getShowing();
-getPopPeople();
-getGenres();
-getPopTV();
+var errorModal = function(errorType){
+    modalContentAside.html("")
+    modalSectionTop.html("");
+    modalSectionCenter.text("");
+    modalMainContentDiv.text("");
+    modalSecCenLeft.html("");
+    modalSecCenRight.html("");
+    modalSectionBottom.html("");
+    if (errorType === "apiFail") {
+        
+        modalContentTitle.text("Unable to Connect to API");
+        $("<p>Our apologies, unfortunately, we are unable to connect to the appropriate service to get you the information you need. Please try again later!</p>").appendTo(modalMainContentDiv);
+    } else {
+        modalContentTitle.text("No Results Were Found");
+        $("<p>Uh-oh! It appears that we were unable to find the requested information. Please try again later!</p>").appendTo(modalMainContentDiv);
+    }
+};

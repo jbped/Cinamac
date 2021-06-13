@@ -28,9 +28,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./in-theaters.html">In Theaters</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="./genres.html">Genres</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="./people.html">People</a>
                     </li>
@@ -59,7 +59,7 @@
                         </button>
                     </div>
                     <div class="modal-body" id="theaters-container">
-                      
+
                         <ul id="theater-list"></ul>
                     </div>
                     <div class="modal-footer">
@@ -110,12 +110,12 @@
         <div class="row">
             <div class="my-2 mb-0 ml-auto">
                 <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theatersModal" >
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theatersModal">
                     Theaters Nearby
                 </button>
             </div>
         </div>
-        
+
         <!-- TRENDING FILMS SECTION -->
         <section class="row mb-5">
             <div id="trend-header" class="row col-12 header-bg">
@@ -164,7 +164,7 @@
         </section>
 
         <!-- GENRES SECTION -->
-        <section class="row my-5">
+        <!-- <section class="row my-5">
             <div id="genre-header" class="d-flex col-12 header-bg">
                 <h2 id="genre-title" class="pl-0 page-header">Genres</h2>
             </div>
@@ -173,7 +173,7 @@
                     <!-- DOM Inserted Elements Here -->
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- POPULAR TV SHOWS SECTION -->
         <section class="row my-5">
@@ -199,20 +199,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-        <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
     <script src="./assets/js/global.js"></script>
 
-    <footer class="container">
-        <div class="row">
-            <h3 class="col-sm">Cinemac! uses the TMDb api but is not endorsed or
-                certified by TMDb</h3>
-            
-            <img class="resize col-sm"
+    <footer class="container-fluid">
+        <div class="row p-3">
+            <h5 class="col-9 my-auto">Cinemac! uses the TMDb api but is not endorsed or
+                certified by TMDb</h5>
+            <img class="resize col-2 ml-auto"
                 src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
                 alt="tmdb_logo" />
         </div>
-        
     </footer>
-    </body>
-    
-    </html>
+</body>
+
+</html>

@@ -16,7 +16,7 @@
         <nav class="container-fluid navbar navbar-expand-lg navbar-dark primary-color">
 
             <h1 class="pr-5 header-title"><a href="./index.html">Cinamac!</a></h1>
-    
+
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,9 +30,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./in-theaters.html">In Theaters</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="./genres.html">Genres</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="./people.html">People</a>
                     </li>
@@ -90,13 +90,23 @@
         <div class="row">
             <div class="col-lg-9 m-lg-auto mx-sm-3">
                 <h2 class="page-header mt-3">Popular TV Shows</h4>
-                <div class="row content-cont" id="content-cont">
-                    <!-- DOM Inserted Elements Here -->
-                </div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More Results</button>
+                    <div class="row content-cont" id="content-cont">
+                        <!-- DOM Inserted Elements Here -->
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="load-more">Load More
+                        Results</button>
             </div>
         </div>
     </main>
+    <footer class="container-fluid">
+        <div class="row p-3">
+            <h5 class="col-9 my-auto">Cinemac! uses the TMDb api but is not endorsed or
+                certified by TMDb</h5>
+            <img class="resize col-2 ml-auto"
+                src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd9be3b2be1e342510f8202baf6bffa71d7f5c4.svg"
+                alt="tmdb_logo" />
+        </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -111,4 +121,5 @@
     <script src="./assets/js/global.js"></script>
     <script src="./assets/js/content.js"></script>
 </body>
+
 </html>

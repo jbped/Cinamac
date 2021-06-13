@@ -224,6 +224,20 @@ header span:hover {
     background-color: var(--fifth);
     border-color: #327241;
 }
+
+#load-more{
+    margin-bottom:.5em;
+}
+/* //////////////////////////////////////////////////////// */
+
+/* -------------------------------------------------------- */
+/* Footer Styling Start */
+/* -------------------------------------------------------- */
+footer {
+    background-color: var(--dark-darker-40);
+    color:var(--primary);
+}
+
 img.resize {
     max-width:10%;
     max-height:10%;
@@ -248,6 +262,7 @@ img.resize {
     outline: 0;
     box-shadow: 0 0 0 .2rem var(--dark-darker-10);
 }
+
 
 /* //////////////////////////////////////////////////////// */
 
@@ -286,5 +301,11 @@ img.resize {
        padding: 0 15%;
        box-shadow: none;
     }
+
+    img.resize {
+        max-width:25%;
+        min-width: 90px;
+        max-height:25%;
+      }
     
 }

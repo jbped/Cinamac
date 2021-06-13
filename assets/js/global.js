@@ -169,7 +169,7 @@ var renderMasterShort = function(response, contentContainer) {
     for (var i = 0; i < 10; i++){
         var genCard = $("<div></div>");
             genCard.addClass("card bg-dark text-light film-card mx-3 my-2 cus-card-width");
-            genCard.attr("id","gen-card-i");
+            genCard.attr("id","gen-card");
         var postImg = $("<img></img>");
         genCard.append(postImg);
         var cardBody = $("<div></div>");
@@ -253,7 +253,7 @@ var renderMasterLong = function(response, contentContainer){
     for (var i = 0; i < response.results.length; i++) {
         var genCard = $("<div></div>");
         genCard.addClass("card bg-dark text-light mx-auto my-3 cus-card-width");
-        genCard.attr("id","gen-card-i");
+        genCard.attr("id","gen-card");
         var postImg = $("<img></img>");
         var cardBody = $("<div></div>");
         cardBody.addClass("card-body");
@@ -269,8 +269,6 @@ var renderMasterLong = function(response, contentContainer){
             } else {
                 postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             }
-            // postImg.attr("onerror", "movImgErr(this)");
-            // postImg.attr("src", imgUrl + postSizCust + response.results[i].poster_path);
             postImg.addClass("card-img-top");
         }
         // Specific attributes and styling for TV SHOWS
@@ -333,7 +331,6 @@ var renderMasterLong = function(response, contentContainer){
 // --------------------------------------------------------------------------------------
 // On click event for content cards --- starts modal creation process for selected card
 $(".content-cont").on("click", function(event){
-    // console.log(event);
     var clickedItem = event.target.localName
     var cardDiv = event.target.classList[0]
     if (clickedItem === "h5" || clickedItem === "img" || cardDiv === "card-body") {

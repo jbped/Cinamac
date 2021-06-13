@@ -33,7 +33,6 @@ var modalContentAside = $("#content-modal-aside")
 var modalContentSection = $("#content-modal-section")
 var modalSectionTop = $("#modal-section-top");
 var modalSectionCenter = $("#modal-section-middle");
-var modalSecCenTxt = $("#modal-center-text")
 var modalSecCenLeft = $("#modal-middle-left");
 var modalSecCenRight = $("#modal-middle-right");
 var modalSectionBottom = $("#modal-section-bottom");
@@ -352,7 +351,7 @@ $(".content-cont").on("click", function(event){
     // cardModal();
     modalContentAside.html("")
     modalSectionTop.html("");
-    modalSecCenTxt.text("");
+    modalSectionCenter.text("");
     modalSecCenLeft.html("");
     modalSecCenRight.html("");
     modalSectionBottom.html("");
@@ -428,17 +427,18 @@ var cardApiCall = function (type, id) {
 var errorModal = function(errorType){
     modalContentAside.html("")
     modalSectionTop.html("");
-    modalSecCenTxt.text("");
+    modalSectionCenter.text("");
     modalMainContentDiv.text("");
     modalSecCenLeft.html("");
     modalSecCenRight.html("");
     modalSectionBottom.html("");
     if (errorType === "apiFail") {
+        
         modalContentTitle.text("Unable to Connect to API");
-        modalSecCenTxt.text("Our apologies, unfortunately, we are unable to connect to the appropriate service to get you the information you need. Please try again later!")
+        $("<p>Our apologies, unfortunately, we are unable to connect to the appropriate service to get you the information you need. Please try again later!</p>").appendTo(modalMainContentDiv);
     } else {
         modalContentTitle.text("No Results Were Found");
-        modalSecCenTxt.text("Uh-oh! It appears that we were unable to find the requested information. Please try again later!")
+        $("<p>Uh-oh! It appears that we were unable to find the requested information. Please try again later!</p>").appendTo(modalMainContentDiv);
     }
 };
 

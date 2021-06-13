@@ -224,6 +224,13 @@ header span:hover {
     background-color: var(--fifth);
     border-color: #327241;
 }
+img.resize {
+    max-width:10%;
+    max-height:10%;
+  }
+  footer h3 {
+      color: var(--primary)
+  }
 /* //////////////////////////////////////////////////////// */
 
 /* -------------------------------------------------------- */

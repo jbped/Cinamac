@@ -19,8 +19,7 @@
 * Sidney Mleynek - https://github.com/srmleynek
 
 # Website Link 
-* https://jsieler.github.io/Cinamac/
-
+* http://cinamac.pedigo.me
 # Demo 
 https://user-images.githubusercontent.com/80868375/121761909-fd43b700-caef-11eb-81bc-b8776461ffe6.mov
 
